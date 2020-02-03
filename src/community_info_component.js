@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './community_component.css';
 import { CommunityEmptyStateComponent } from './community_display_states/community_empty_state';
 import { CommunitySelectedComponent } from './community_selected_component';

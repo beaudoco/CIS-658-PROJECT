@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import './community_component.css';
 import { Card, Typography, CardContent, CardActionArea } from '@material-ui/core';
@@ -12,7 +12,7 @@ const list = [
     {name: 'Disney'},
     {name: 'AMC'},
     {name: 'PBS'},
-    {name: 'ABC'},    
+    {name: 'ABC'},
     {name: 'Add +'},
 ];
 
