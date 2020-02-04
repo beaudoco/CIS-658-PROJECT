@@ -3,6 +3,7 @@ import './community_component.css';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import ScrollableTabsButtonAuto from './community_selected_tabs_component';
 
 export class CommunitySelectedComponent extends React.Component {
     constructor(props) {
@@ -40,7 +41,18 @@ export class CommunitySelectedComponent extends React.Component {
                                 shows as they like.
                             </Typography>
                         </CardContent>
-                    </Card>          
+                    </Card>
+                    <br></br>
+                    <br></br>
+                    {this.state.index == -1 ? <div></div> :
+                        <Card>
+                            <CardContent>
+                                <div>
+                                    <ScrollableTabsButtonAuto></ScrollableTabsButtonAuto>  
+                                </div>
+                            </CardContent>
+                        </Card>
+                    }                            
                 </div>
             );
         }
