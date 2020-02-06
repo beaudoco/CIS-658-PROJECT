@@ -10,7 +10,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CommunityComponent from './community_component.js';
+import { GoogleLogin } from 'react-google-login';
 
+const responseGoogle = (response) => {
+  console.log(response);
+}
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -37,8 +41,6 @@ const useStyles = makeStyles(theme => ({
   
     return (
       <div className={classes.root}>
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com"></meta>
         <AppBar position="static">
           <Toolbar>
             <IconButton  edge="start" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className={classes.menuButton} color="secondary" aria-label="menu">
@@ -58,8 +60,13 @@ const useStyles = makeStyles(theme => ({
             <Typography variant="h6" className={classes.title}>
               CIS 658
             </Typography>
-            <div className="g-signin2" data-onsuccess="onSignIn"></div>
-            <Button color="inherit">Login</Button>
+            <GoogleLogin
+              clientId="569471380445-d1t8q5o2afotehccphv8bur7qe520t2t.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
           </Toolbar>
         </AppBar>
       </div>
