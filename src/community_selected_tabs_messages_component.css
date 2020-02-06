@@ -1,0 +1,9 @@
+.addBtn {
+    float: right;
+    bottom: -20px;
+}
+
+#outlined-textarea {
+    width: 100%;
+    flex: 3;
+}

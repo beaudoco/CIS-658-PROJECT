@@ -37,6 +37,8 @@ const useStyles = makeStyles(theme => ({
   
     return (
       <div className={classes.root}>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com"></meta>
         <AppBar position="static">
           <Toolbar>
             <IconButton  edge="start" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className={classes.menuButton} color="secondary" aria-label="menu">
@@ -56,6 +58,7 @@ const useStyles = makeStyles(theme => ({
             <Typography variant="h6" className={classes.title}>
               CIS 658
             </Typography>
+            <div className="g-signin2" data-onsuccess="onSignIn"></div>
             <Button color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
