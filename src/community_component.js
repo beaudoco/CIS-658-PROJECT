@@ -3,33 +3,26 @@ import ScrollMenu from 'react-horizontal-scrolling-menu';
 import './community_component.css';
 import { Card, Typography, CardContent, CardActionArea } from '@material-ui/core';
 import CommunityInfoComponent from './community_info_component';
+import * as firebase from 'firebase';
 
-const list = [
-    {name: 'Netflix'},
-    {name: 'Hulu'},
-    {name: 'NBC'},
-    {name: 'CBS'},
-    {name: 'Disney'},
-    {name: 'AMC'},
-    {name: 'PBS'},
-    {name: 'ABC'},
-    {name: 'Add +'},
+var list = [
+    {title: 'Add +'},
 ];
 
-const MenuItem = ({text, selected}) => {
+var MenuItem = ({text, selected}) => {
     return <div className={`menu-item ${selected ? '' : ''}`}>
         {text}
     </div>;
 }
 
-export const Menu = (list, selected) =>
+export var Menu = (list, selected) =>
     list.map(el => {
-        const {name} = el;
+        const {title} = el;
 
-        return <Card key={name} selected={selected}>
+        return <Card key={title} selected={selected}>
             <CardActionArea>
                 <CardContent>
-                    <Typography variant="h4" text={name}>{name}</Typography>
+                    <Typography variant="h4" text={title}>{title}</Typography>
                 </CardContent>
             </CardActionArea>
         </Card>
@@ -49,7 +42,8 @@ const selected = '';
 export class CommunityComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.menuItems = Menu(list, selected);
+        this.state = {list: list};
+        this.menuItems = Menu(this.state.list, selected);        
         }
 
         state = {
@@ -61,10 +55,22 @@ export class CommunityComponent extends React.Component {
             this._child.triggerUpdateState(key);
         }
 
+        componentDidMount() {
+            const rootRef = firebase.firestore().collection('providers');
+            rootRef.get().then((snapshot) => {
+              snapshot.docs.forEach(doc => {
+                list.push(doc.data());          
+              });
+              this.menuItems = Menu(this.state.list, selected); 
+              this.setState({list: list});
+            });
+            
+        }
+
         render() {
             const { selected } = this.state;
             // Create menu from items
-            const menu = this.menuItems;
+            var menu = this.menuItems;
             return (
                 <div>
                     <div className="CommunityComponent">

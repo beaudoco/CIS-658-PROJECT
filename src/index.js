@@ -24,13 +24,6 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-// const db = firebase.database();
-// const dbRef = db.ref.child('provider');
-
-// dbRef.on('value', snapshot => {
-//   console.log(snapshot.val());
-// }); 
-
 const responseGoogle = (response) => {
   console.log(response);
 }
@@ -93,22 +86,9 @@ const useStyles = makeStyles(theme => ({
   }
   
   class Game extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-
-    componentDidMount() {
-      const rootRef = firebase.firestore().collection('providers');
-      rootRef.get().then((snapshot) => {
-        snapshot.docs.forEach(doc => {
-          console.log(doc.data());
-        });
-      });
-      // providerRef.on('value', snap => {
-      //   console.log(snap.val());
-      //   console.log("hellow");
-      // });
-    }
+    // constructor(props) {
+    //   super(props);
+    // }
 
     render() {  
       return (          
