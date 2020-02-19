@@ -7,8 +7,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { AutoRotatingCarousel } from 'material-auto-rotating-carousel';
 import { Slide } from 'material-auto-rotating-carousel';
+import * as firebase from 'firebase';
 
 var index = 0;
+var list = [];
 
 export class CommunityInfoComponent extends React.Component {
     constructor(props) {
@@ -16,11 +18,19 @@ export class CommunityInfoComponent extends React.Component {
         this.state = { isEmptyState: true };
         }
         
-        triggerUpdateState(selectedItem) {
+        triggerUpdateState(selectedItem) {         
             this.setState({
                 isEmptyState: false,
                 selectedItem: selectedItem
             });
+            const rootRef = firebase.firestore().collection('shows');
+            rootRef.get().then((snapshot) => {
+              snapshot.docs.forEach(doc => {
+                list.push(doc.data());          
+              });
+              //console.log(list);
+              this.setState({list: list});
+            });   
         };
 
         onStart() {
@@ -34,28 +44,28 @@ export class CommunityInfoComponent extends React.Component {
         render() {
             const { red, blue, green } = require('@material-ui/core/colors');
             const Button = require('@material-ui/core/Button').default;
+            if(list[0] != undefined) {
+                //if(this.list.length != 0){
+                    console.log(list[0]);
+                //}
+            }
 
             return (
                 <div className="CommunityInfoComponent">
-                    <a>{this.state.isEmptyState ? <CommunityEmptyStateComponent></CommunityEmptyStateComponent> :
+                    <a>{this.state.isEmptyState || (this.state.selectedItem.index == 0) ? <CommunityEmptyStateComponent></CommunityEmptyStateComponent> :
                     <div>
                         <Card>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    {this.state.selectedItem}
+                                    {this.state.selectedItem.title}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Community is an opportunity for fans of all sorts of TV shows to connect with 
-                                    eachother on one common platform. Community offers the unique opportunity for 
-                                    users to share their opinions and theories of their favorite shows. It also 
-                                    allows for users to connect and learn more about similar TV shows.
+                                    {this.state.selectedItem.description}
                                     <br></br>
                                     <br></br>
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Users can link shows that they find similar. Feel free to search our continuously
-                                    growing catalog of TV shows for your favorites! Users are also welcome to add new
-                                    shows as they like.
+                                    {this.list}
                                 </Typography>
                                 <p>
                                     <Button onClick={() => this.setState({ open: true })} >Open carousel</Button>
@@ -74,32 +84,16 @@ export class CommunityInfoComponent extends React.Component {
                                 onStart={() => this.onStart() }
                                 style={{ position: 'absolute' }}
                             >
-                                <Slide
-                                media={<img src='http://www.icons101.com/icon_png/size_256/id_79394/youtube.png' />}
-                                title='This is a very cool feature'
-                                subtitle='Just using this will blow your mind.'
-                                />
-                                <Slide
-                                media={<img src='http://www.icons101.com/icon_png/size_256/id_79394/youtube.png' />}
-                                mediaBackgroundStyle={{ backgroundColor: red[400] }}
-                                style={{ backgroundColor: red[600] }}
-                                title='This is a very cool feature'
-                                subtitle='Just using this will blow your mind.'
-                                />
-                                <Slide
-                                media={<img src='http://www.icons101.com/icon_png/size_256/id_80975/GoogleInbox.png' />}
-                                mediaBackgroundStyle={{ backgroundColor: blue[400] }}
-                                style={{ backgroundColor: blue[600] }}
-                                title='Ever wanted to be popular?'
-                                subtitle='Well just mix two colors and your are good to go!'
-                                />
-                                <Slide
-                                media={<img src='http://www.icons101.com/icon_png/size_256/id_76704/Google_Settings.png' />}
-                                mediaBackgroundStyle={{ backgroundColor: green[400] }}
-                                style={{ backgroundColor: green[600] }}
-                                title='May the force be with you'
-                                subtitle='The Force is a metaphysical and ubiquitous power in the Star Wars fictional universe.'
-                                />
+                                {list[0] == undefined ? '' : 
+                                    list.map(el => 
+                                        <Slide
+                                            media={<img src={el.showImage} />}
+                                            mediaBackgroundStyle={{ backgroundColor: green[400] }}
+                                            style={{ backgroundColor: green[600] }}
+                                            title={el.showTitle}
+                                            subtitle={el.showDescription}
+                                        />)
+                                }
                             </AutoRotatingCarousel>
                         </div>                        
                     </div>   

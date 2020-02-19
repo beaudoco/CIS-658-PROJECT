@@ -6,7 +6,7 @@ import CommunityInfoComponent from './community_info_component';
 import * as firebase from 'firebase';
 
 var list = [
-    {title: 'Add +'},
+    {index: 0, title: 'Add +'},
 ];
 
 var MenuItem = ({text, selected}) => {
@@ -52,7 +52,7 @@ export class CommunityComponent extends React.Component {
 
         onSelect = key => {
             this.setState({selected: key});
-            this._child.triggerUpdateState(key);
+            this._child.triggerUpdateState(this.state.list.find(x => x.title == key));
         }
 
         componentDidMount() {
