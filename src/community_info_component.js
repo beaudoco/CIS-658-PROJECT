@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { AutoRotatingCarousel } from 'material-auto-rotating-carousel';
 import { Slide } from 'material-auto-rotating-carousel';
 import * as firebase from 'firebase';
+import FullScreenDialog from './community_add_show_component';
 
 var index = 0;
 var list = [];
@@ -68,7 +69,10 @@ export class CommunityInfoComponent extends React.Component {
                                     {this.list}
                                 </Typography>
                                 <p>
-                                    <Button onClick={() => this.setState({ open: true })} >Open carousel</Button>
+                                    <div className="outer">
+                                        <FullScreenDialog className="inner"></FullScreenDialog>
+                                        <Button color="primary" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button>                                        
+                                    </div>
                                 </p>
                             </CardContent>
                         </Card>

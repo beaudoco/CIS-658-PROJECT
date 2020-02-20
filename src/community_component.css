@@ -17,3 +17,12 @@
     padding: 20px;
     cursor: pointer;
   }
+
+  .outer {
+    text-align: center;
+    width: 100%;
+  }
+
+  .inner {
+    float: left;
+  }

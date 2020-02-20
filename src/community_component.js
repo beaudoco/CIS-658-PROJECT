@@ -82,6 +82,8 @@ export class CommunityComponent extends React.Component {
                             onSelect={this.onSelect}
                             ></ScrollMenu>                    
                     </div>
+                    <br></br>
+                    <br></br>  
                     <CommunityInfoComponent ref={component => this._child = component} ></CommunityInfoComponent>
                 </div>        
 
