@@ -12,7 +12,6 @@ export class CommunitySelectedComponent extends React.Component {
         }
         
         triggerUpdateState(index) {
-            console.log(index);
             this.setState({
                 index: index
             });
@@ -25,7 +24,7 @@ export class CommunitySelectedComponent extends React.Component {
                     <Card>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                                {this.state.index == -1 ? "Please Select Show" : this.state.index }
+                                {this.state.index == -1 ? "Please Select Show" : this.state.index.showTitle }
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                                 Community is an opportunity for fans of all sorts of TV shows to connect with 

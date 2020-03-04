@@ -7,3 +7,11 @@
     width: 100%;
     flex: 3;
 }
+
+.list-root {
+    width: 100%;
+}
+
+.list-inline {
+    display: inline;
+}

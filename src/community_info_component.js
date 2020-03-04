@@ -18,7 +18,7 @@ export class CommunityInfoComponent extends React.Component {
         super(props);
         this.state = { isEmptyState: true };
         }
-        
+
         triggerUpdateState(selectedItem) {         
             this.setState({
                 isEmptyState: false,
@@ -27,16 +27,17 @@ export class CommunityInfoComponent extends React.Component {
             const rootRef = firebase.firestore().collection('shows');
             rootRef.get().then((snapshot) => {
               snapshot.docs.forEach(doc => {
-                list.push(doc.data());          
+                list.push(doc.data());
               });
               //console.log(list);
               this.setState({list: list});
-            });   
+            });
         };
 
         onStart() {
+            console.log();
             this.setState({ open: false });
-            this._child.triggerUpdateState(index);
+            this._child.triggerUpdateState(list[index]);
         }
 
         onChange(index) {
@@ -45,11 +46,6 @@ export class CommunityInfoComponent extends React.Component {
         render() {
             const { red, blue, green } = require('@material-ui/core/colors');
             const Button = require('@material-ui/core/Button').default;
-            if(list[0] != undefined) {
-                //if(this.list.length != 0){
-                    console.log(list[0]);
-                //}
-            }
 
             return (
                 <div className="CommunityInfoComponent">
