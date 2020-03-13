@@ -42,7 +42,11 @@ const selected = '';
 export class CommunityComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {list: list};
+        this.state = {
+            list: list,
+            user: null
+        };
+
         this.menuItems = Menu(this.state.list, selected);        
         }
 
@@ -52,7 +56,13 @@ export class CommunityComponent extends React.Component {
 
         onSelect = key => {
             this.setState({selected: key});
-            this._child.triggerUpdateState(this.state.list.find(x => x.title == key));
+            this._child.triggerUpdateState(this.state.list.find(x => x.title == key), this.state.user);
+        }
+
+        triggerUpdateState(user) {
+            this.setState({
+                user: user,
+            })
         }
 
         componentDidMount() {

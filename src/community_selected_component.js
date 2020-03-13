@@ -8,53 +8,55 @@ import ScrollableTabsButtonAuto from './community_selected_tabs_component';
 export class CommunitySelectedComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {index:-1};
-        }
-        
-        triggerUpdateState(index) {
-            this.setState({
-                index: index
-            });
-            this.render();
-        };
+        this.state = { index: -1 };
+    }
 
-        render() {
-            return (
-                <div className="CommunitySelectedComponent">
+    triggerUpdateState(index, user) {
+        this.setState({
+            index: index,
+            user: user
+        });
+        //this._child.triggerUpdateState(this.state.user);
+        this.render();
+    };
+
+    render() {
+        return (
+            <div className="CommunitySelectedComponent">
+                <Card>
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {this.state.index == -1 ? "Please Select Show" : this.state.index.showTitle}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            Community is an opportunity for fans of all sorts of TV shows to connect with
+                            eachother on one common platform. Community offers the unique opportunity for
+                            users to share their opinions and theories of their favorite shows. It also
+                            allows for users to connect and learn more about similar TV shows.
+                                <br></br>
+                            <br></br>
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            Users can link shows that they find similar. Feel free to search our continuously
+                            growing catalog of TV shows for your favorites! Users are also welcome to add new
+                            shows as they like.
+                            </Typography>
+                    </CardContent>
+                </Card>
+                <br></br>
+                <br></br>
+                {this.state.index == -1 ? <div></div> :
                     <Card>
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {this.state.index == -1 ? "Please Select Show" : this.state.index.showTitle }
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                Community is an opportunity for fans of all sorts of TV shows to connect with 
-                                eachother on one common platform. Community offers the unique opportunity for 
-                                users to share their opinions and theories of their favorite shows. It also 
-                                allows for users to connect and learn more about similar TV shows.
-                                <br></br>
-                                <br></br>
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                Users can link shows that they find similar. Feel free to search our continuously
-                                growing catalog of TV shows for your favorites! Users are also welcome to add new
-                                shows as they like.
-                            </Typography>
+                            <div>
+                                <ScrollableTabsButtonAuto ref={component => this._child = component}></ScrollableTabsButtonAuto>
+                            </div>
                         </CardContent>
                     </Card>
-                    <br></br>
-                    <br></br>
-                    {this.state.index == -1 ? <div></div> :
-                        <Card>
-                            <CardContent>
-                                <div>
-                                    <ScrollableTabsButtonAuto></ScrollableTabsButtonAuto>  
-                                </div>
-                            </CardContent>
-                        </Card>
-                    }                            
-                </div>
-            );
-        }
+                }
+            </div>
+        );
+    }
 }
 
 export default CommunitySelectedComponent;

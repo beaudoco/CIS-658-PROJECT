@@ -17,39 +17,40 @@ export class CommunityInfoComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = { isEmptyState: true };
-        }
+    }
 
-        triggerUpdateState(selectedItem) {         
-            this.setState({
-                isEmptyState: false,
-                selectedItem: selectedItem
-            });
-            const rootRef = firebase.firestore().collection('shows');
-            rootRef.get().then((snapshot) => {
-              snapshot.docs.forEach(doc => {
+    triggerUpdateState(selectedItem, user) {
+        this.setState({
+            isEmptyState: false,
+            selectedItem: selectedItem,
+            user: user
+        });
+        const rootRef = firebase.firestore().collection('shows');
+        rootRef.get().then((snapshot) => {
+            snapshot.docs.forEach(doc => {
                 list.push(doc.data());
-              });
-              //console.log(list);
-              this.setState({list: list});
             });
-        };
+            //console.log(list);
+            this.setState({ list: list });
+        });
+    };
 
-        onStart() {
-            console.log();
-            this.setState({ open: false });
-            this._child.triggerUpdateState(list[index]);
-        }
+    onStart() {
+        console.log();
+        this.setState({ open: false });
+        this._child.triggerUpdateState(list[index],this.state.user);
+    }
 
-        onChange(index) {
-        }
+    onChange(index) {
+    }
 
-        render() {
-            const { red, blue, green } = require('@material-ui/core/colors');
-            const Button = require('@material-ui/core/Button').default;
+    render() {
+        const { red, blue, green } = require('@material-ui/core/colors');
+        const Button = require('@material-ui/core/Button').default;
 
-            return (
-                <div className="CommunityInfoComponent">
-                    <a>{this.state.isEmptyState || (this.state.selectedItem.index == 0) ? <CommunityEmptyStateComponent></CommunityEmptyStateComponent> :
+        return (
+            <div className="CommunityInfoComponent">
+                <a>{this.state.isEmptyState || (this.state.selectedItem.index == 0) ? <CommunityEmptyStateComponent></CommunityEmptyStateComponent> :
                     <div>
                         <Card>
                             <CardContent>
@@ -67,25 +68,25 @@ export class CommunityInfoComponent extends React.Component {
                                 <p>
                                     <div className="outer">
                                         <FullScreenDialog className="inner"></FullScreenDialog>
-                                        <Button color="primary" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button>                                        
+                                        <Button color="primary" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button>
                                     </div>
                                 </p>
                             </CardContent>
                         </Card>
                         <br></br>
-                        <br></br>      
-                        <CommunitySelectedComponent ref={component => this._child = component} ></CommunitySelectedComponent>  
-                        <div style={{ position: 'relative', width: '100%', height: 500 }}>                        
+                        <br></br>
+                        <CommunitySelectedComponent ref={component => this._child = component} ></CommunitySelectedComponent>
+                        <div style={{ position: 'relative', width: '100%', height: 500 }}>
                             <AutoRotatingCarousel
                                 label='Get started'
                                 open={this.state.open}
                                 onClose={() => this.setState({ open: false })}
                                 onChange={() => this.onChange(++index)}
-                                onStart={() => this.onStart() }
+                                onStart={() => this.onStart()}
                                 style={{ position: 'absolute' }}
                             >
-                                {list[0] == undefined ? '' : 
-                                    list.map(el => 
+                                {list[0] == undefined ? '' :
+                                    list.map(el =>
                                         <Slide
                                             media={<img src={el.showImage} />}
                                             mediaBackgroundStyle={{ backgroundColor: green[400] }}
@@ -95,12 +96,12 @@ export class CommunityInfoComponent extends React.Component {
                                         />)
                                 }
                             </AutoRotatingCarousel>
-                        </div>                        
-                    </div>   
-                         }</a>                 
-                </div>
-            );
-        }
+                        </div>
+                    </div>
+                }</a>
+            </div>
+        );
+    }
 }
 
 export default CommunityInfoComponent;

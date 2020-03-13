@@ -1,13 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import MenuIcon from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import CommunityComponent from './community_component.js';
 import { GoogleLogin } from 'react-google-login';
 import * as firebase from 'firebase';
@@ -23,92 +19,67 @@ const firebaseConfig = {
   measurementId: "G-QNL6JT988X"
 };
 firebase.initializeApp(firebaseConfig);
-
-const responseGoogle = (response) => {
-  console.log(response);
+var user = {
+  googleId: null,
+  imageUrl: null,
+  email: null,
+  name: null,
+  givenName: null,
+  familyName: null
 }
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-    },
-    }));
-  
-  function ButtonAppBar() {
-    const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = event => {
-        setAnchorEl(event.currentTarget);
+class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: user,
     };
+  }
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-  
+  render() {
+    const responseGoogle = (response) => {
+      var tmpUser = response.profileObj;
+      user = tmpUser;
+      this._child.triggerUpdateState(user);
+      this.setState({
+        user: tmpUser
+      });
+
+    }
+    const loggedInUser = user;
     return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton  edge="start" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className={classes.menuButton} color="secondary" aria-label="menu">
-            <MenuIcon
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                onBlur={handleClose}
-            >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </MenuIcon>
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              CIS 658
-            </Typography>
-            <GoogleLogin
-              clientId="569471380445-d1t8q5o2afotehccphv8bur7qe520t2t.apps.googleusercontent.com"
-              buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={'single_host_origin'}
-            />
-          </Toolbar>
-        </AppBar>
+      <div>
+        <h1>
+          <div>
+            <AppBar position="static">
+              <Toolbar>
+                {/* <Typography variant="h6" className={flexGrow: 1}> */}
+                <Typography variant="h6" className="flex-grow">
+                  CIS 658
+              </Typography>
+                <GoogleLogin
+                  clientId="569471380445-d1t8q5o2afotehccphv8bur7qe520t2t.apps.googleusercontent.com"
+                  buttonText={loggedInUser.givenName ? "Welcome " + loggedInUser.givenName : "Login"}
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                />
+              </Toolbar>
+            </AppBar>
+          </div>
+        </h1>
+        <h2 className="center">Welcome To Community</h2>
+        <CommunityComponent ref={component => this._child = component}></CommunityComponent>
+        <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+        <script src="/__/firebase/7.8.1/firebase-app.js"></script>
+        <script src="/__/firebase/7.8.1/firebase-analytics.js"></script>
+        <script src="/__/firebase/init.js"></script>
       </div>
     );
   }
-  
-  class Game extends React.Component {
-    // constructor(props) {
-    //   super(props);
-    // }
+}
 
-    render() {  
-      return (          
-        <div>
-            <h1>
-                <ButtonAppBar></ButtonAppBar>          
-            </h1>
-            <h2 className="center">Welcome To Community</h2>
-            <CommunityComponent></CommunityComponent>
-            <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
-            <script src="/__/firebase/7.8.1/firebase-app.js"></script>
-            <script src="/__/firebase/7.8.1/firebase-analytics.js"></script>
-            <script src="/__/firebase/init.js"></script>
-        </div>
-      );
-    }
-  }
-  
-  // ========================================
-  
-  ReactDOM.render(<Game />, document.getElementById("root"));
-  
+// ========================================
+
+ReactDOM.render(<Game />, document.getElementById("root"));

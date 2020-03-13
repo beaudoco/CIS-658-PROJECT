@@ -60,6 +60,12 @@ export default function ScrollableTabsButtonAuto() {
     setValue(index);
   };
 
+  const triggerUpdateState = (user) => {
+    this.setState({
+        user: user
+    });
+};
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
