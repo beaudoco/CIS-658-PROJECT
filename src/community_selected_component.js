@@ -49,7 +49,7 @@ export class CommunitySelectedComponent extends React.Component {
                     <Card>
                         <CardContent>
                             <div>
-                                <ScrollableTabsButtonAuto ref={component => this._child = component}></ScrollableTabsButtonAuto>
+                                <ScrollableTabsButtonAuto user={this.state.user} ></ScrollableTabsButtonAuto>
                             </div>
                         </CardContent>
                     </Card>

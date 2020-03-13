@@ -56,4 +56,9 @@ body {
   .flex-grow {
     flex-grow: 1;
   }
+
+  .tabs {
+    width: '100%';
+    flex-grow: 1;
+  }
   

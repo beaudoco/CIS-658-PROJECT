@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ScrollableTabsButtonAuto() {
+export default function ScrollableTabsButtonAuto(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -56,15 +56,11 @@ export default function ScrollableTabsButtonAuto() {
     setValue(newValue);
   };
 
+  console.log(props.user);
+
   const handleChangeIndex = index => {
     setValue(index);
   };
-
-  const triggerUpdateState = (user) => {
-    this.setState({
-        user: user
-    });
-};
 
   return (
     <div className={classes.root}>
