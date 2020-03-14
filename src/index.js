@@ -62,6 +62,7 @@ class Game extends React.Component {
                   buttonText={loggedInUser.givenName ? "Welcome " + loggedInUser.givenName : "Login"}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
+                  isSignedIn={true}
                   cookiePolicy={'single_host_origin'}
                 />
               </Toolbar>

@@ -56,7 +56,7 @@ export default function ScrollableTabsButtonAuto(props) {
     setValue(newValue);
   };
 
-  console.log(props.user);
+  //console.log(props.user);
 
   const handleChangeIndex = index => {
     setValue(index);
@@ -89,25 +89,25 @@ export default function ScrollableTabsButtonAuto(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <AlignItemsList></AlignItemsList>
+          <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-            <AlignItemsList></AlignItemsList>
+            <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-            <AlignItemsList></AlignItemsList>
+            <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-            <AlignItemsList></AlignItemsList>
+            <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={4} dir={theme.direction}>
-            <AlignItemsList></AlignItemsList>
+            <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={5} dir={theme.direction}>
-            <AlignItemsList></AlignItemsList>
+            <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={6} dir={theme.direction}>
-            <AlignItemsList></AlignItemsList>
+            <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
       </SwipeableViews>
     </div>
