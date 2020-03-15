@@ -51,32 +51,51 @@ export class AlignItemsList extends React.Component {
             user: props.user,
             list: list
         };
-
         this.listItems = ListItemEl(this.state.list);
     }
 
     saveComment() {
-        console.log(this.props.user);
-        //console.log(document.getElementById("outlined-comment-text").value);
+        var tmpErrMessage = "";
+        var tmpIsErr = false;
+        if (this.props.user == null) {
+            tmpErrMessage = "Please Login With a User Account";
+            tmpIsErr = true;
+        } else if ((document.getElementById("outlined-comment-text").value == null) ||
+            (document.getElementById("outlined-comment-text").value == '')) {
+            tmpErrMessage = "Please Enter A Comment";
+            tmpIsErr = true;
+        } else {
+            const rootRef = firebase.firestore().collection('comments');
+            rootRef.add({
+                comment: document.getElementById("outlined-comment-text").value,
+                seasonID: 1,
+                time: new Date(),
+                userImage: this.props.user.imageUrl,
+                username: this.props.user.name
+            });
+            document.getElementById("outlined-comment-text").value = "";
+            this.componentDidMount();
+        }
+
         this.setState({
-            isError: document.getElementById("outlined-comment-text").value == null
-                || document.getElementById("outlined-comment-text").value == '',
-            errorMessage: document.getElementById("outlined-comment-text").value == null
-                || document.getElementById("outlined-comment-text").value == '' ? "fuck" : ""
+            isError: tmpIsErr,
+            errorMessage: tmpErrMessage
         });
-        document.getElementById("outlined-comment-text").error = true;
     }
 
     componentDidMount() {
         const rootRef = firebase.firestore().collection('comments');
+        list.length = 0;
         rootRef.get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 list.push(doc.data());
             });
+            list.sort(function (a, b) {
+                return a.time.seconds - b.time.seconds;
+            });
+            this.listItems = ListItemEl(this.state.list);
             this.setState({ list: list });
         });
-        this.listItems = ListItemEl(this.state.list);
-        this.setState({ list: list });
     }
 
     render() {
