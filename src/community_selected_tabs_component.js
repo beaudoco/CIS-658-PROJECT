@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import AlignItemsList from './community_selected_tabs_messages_component';
+import * as firebase from 'firebase';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,6 +48,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+var list = [];
+
 export default function ScrollableTabsButtonAuto(props) {
   const classes = useStyles();
   const theme = useTheme();
@@ -61,6 +64,21 @@ export default function ScrollableTabsButtonAuto(props) {
   const handleChangeIndex = index => {
     setValue(index);
   };
+
+  // BELOW WE ARE ABOUT TO START GETTING THE SEASONS FOR A SELECTED SHOW
+
+  // const rootRef = firebase.firestore().collection('comments');
+
+  // rootRef.get().then((snapshot) => {
+  //     snapshot.docs.forEach(doc => {
+  //         list.push(doc.data());
+  //     });
+  //     list.sort(function (a, b) {
+  //         return a.time.seconds - b.time.seconds;
+  //     });
+  //     this.listItems = ListItemEl(this.state.list);
+  //     this.setState({ list: list });
+  // });
 
   return (
     <div className={classes.root}>
