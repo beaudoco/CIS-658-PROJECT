@@ -57,6 +57,7 @@ export class AlignItemsList extends React.Component {
     saveComment() {
         var tmpErrMessage = "";
         var tmpIsErr = false;
+
         if (this.props.user == null) {
             tmpErrMessage = "Please Login With a User Account";
             tmpIsErr = true;
@@ -86,6 +87,7 @@ export class AlignItemsList extends React.Component {
     componentDidMount() {
         const rootRef = firebase.firestore().collection('comments');
         list.length = 0;
+
         rootRef.get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 list.push(doc.data());

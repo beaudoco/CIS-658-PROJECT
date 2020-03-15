@@ -16,7 +16,6 @@ export class CommunitySelectedComponent extends React.Component {
             index: index,
             user: user
         });
-        //this._child.triggerUpdateState(this.state.user);
         this.render();
     };
 

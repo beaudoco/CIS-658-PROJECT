@@ -18,6 +18,7 @@ const firebaseConfig = {
   appId: "1:569471380445:web:50eb6bc779461575efa434",
   measurementId: "G-QNL6JT988X"
 };
+
 firebase.initializeApp(firebaseConfig);
 var user = {
   googleId: null,
@@ -47,6 +48,7 @@ class Game extends React.Component {
 
     }
     const loggedInUser = user;
+    
     return (
       <div>
         <h1>

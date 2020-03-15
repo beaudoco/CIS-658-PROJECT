@@ -25,6 +25,7 @@ export class CommunityInfoComponent extends React.Component {
             selectedItem: selectedItem,
             user: user
         });
+
         const rootRef = firebase.firestore().collection('shows');
         rootRef.get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
@@ -36,11 +37,11 @@ export class CommunityInfoComponent extends React.Component {
     };
 
     onStart() {
-        console.log();
         this.setState({ open: false });
-        this._child.triggerUpdateState(list[index],this.state.user);
+        this._child.triggerUpdateState(list[index], this.state.user);
     }
 
+    //ATTEMPT REMOVING THIS LATER
     onChange(index) {
     }
 

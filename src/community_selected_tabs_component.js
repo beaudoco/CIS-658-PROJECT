@@ -92,22 +92,22 @@ export default function ScrollableTabsButtonAuto(props) {
           <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-            <AlignItemsList user={props.user}></AlignItemsList>
+          <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-            <AlignItemsList user={props.user}></AlignItemsList>
+          <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-            <AlignItemsList user={props.user}></AlignItemsList>
+          <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={4} dir={theme.direction}>
-            <AlignItemsList user={props.user}></AlignItemsList>
+          <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={5} dir={theme.direction}>
-            <AlignItemsList user={props.user}></AlignItemsList>
+          <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
         <TabPanel value={value} index={6} dir={theme.direction}>
-            <AlignItemsList user={props.user}></AlignItemsList>
+          <AlignItemsList user={props.user}></AlignItemsList>
         </TabPanel>
       </SwipeableViews>
     </div>
