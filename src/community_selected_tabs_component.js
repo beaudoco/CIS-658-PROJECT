@@ -8,7 +8,6 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import AlignItemsList from './community_selected_tabs_messages_component';
-import * as firebase from 'firebase';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,26 +58,11 @@ export default function ScrollableTabsButtonAuto(props) {
     setValue(newValue);
   };
 
-  //console.log(props.user);
-
   const handleChangeIndex = index => {
     setValue(index);
   };
 
-  // BELOW WE ARE ABOUT TO START GETTING THE SEASONS FOR A SELECTED SHOW
-
-  // const rootRef = firebase.firestore().collection('comments');
-
-  // rootRef.get().then((snapshot) => {
-  //     snapshot.docs.forEach(doc => {
-  //         list.push(doc.data());
-  //     });
-  //     list.sort(function (a, b) {
-  //         return a.time.seconds - b.time.seconds;
-  //     });
-  //     this.listItems = ListItemEl(this.state.list);
-  //     this.setState({ list: list });
-  // });
+  list = [...props.seasons];
 
   return (
     <div className={classes.root}>
@@ -92,13 +76,10 @@ export default function ScrollableTabsButtonAuto(props) {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-          <Tab label="Item Four" {...a11yProps(3)} />
-          <Tab label="Item Five" {...a11yProps(4)} />
-          <Tab label="Item Six" {...a11yProps(5)} />
-          <Tab label="Item Seven" {...a11yProps(6)} />
+          {list.map(el => {
+            console.log(el);
+            return <Tab label={el.season} {...a11yProps(el.seasonID)} />
+          })}
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -106,27 +87,11 @@ export default function ScrollableTabsButtonAuto(props) {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          <AlignItemsList user={props.user}></AlignItemsList>
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <AlignItemsList user={props.user}></AlignItemsList>
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          <AlignItemsList user={props.user}></AlignItemsList>
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          <AlignItemsList user={props.user}></AlignItemsList>
-        </TabPanel>
-        <TabPanel value={value} index={4} dir={theme.direction}>
-          <AlignItemsList user={props.user}></AlignItemsList>
-        </TabPanel>
-        <TabPanel value={value} index={5} dir={theme.direction}>
-          <AlignItemsList user={props.user}></AlignItemsList>
-        </TabPanel>
-        <TabPanel value={value} index={6} dir={theme.direction}>
-          <AlignItemsList user={props.user}></AlignItemsList>
-        </TabPanel>
+        {list.map(el => {
+          return <TabPanel value={value} index={el.seasonID - 1} dir={theme.direction}>
+            <AlignItemsList user={props.user}></AlignItemsList>
+          </TabPanel>
+        })}
       </SwipeableViews>
     </div>
   );

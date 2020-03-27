@@ -12,11 +12,15 @@ import FullScreenDialog from './community_add_show_component';
 
 var index = 0;
 var list = [];
+var newLoad = true;
 
 export class CommunityInfoComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { isEmptyState: true };
+        this.state = { 
+            isEmptyState: true,
+            previousIndex: -1
+         };
     }
 
     triggerUpdateState(selectedItem, user) {
@@ -27,11 +31,11 @@ export class CommunityInfoComponent extends React.Component {
         });
 
         const rootRef = firebase.firestore().collection('shows');
+        list.length = 0;
         rootRef.get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
                 list.push(doc.data());
             });
-            //console.log(list);
             this.setState({ list: list });
         });
     };
@@ -41,17 +45,22 @@ export class CommunityInfoComponent extends React.Component {
         this._child.triggerUpdateState(list[index], this.state.user);
     }
 
-    //ATTEMPT REMOVING THIS LATER
-    onChange(index) {
-    }
-
     render() {
         const { red, blue, green } = require('@material-ui/core/colors');
         const Button = require('@material-ui/core/Button').default;
 
+        if (!this.state.isEmptyState) {
+            if (this.state.previousIndex != this.state.selectedItem.index) {
+                newLoad = true;
+                this.setState({previousIndex: this.state.selectedItem.index});
+            } else {
+                newLoad = false;
+            }
+        }
+
         return (
             <div className="CommunityInfoComponent">
-                <a>{this.state.isEmptyState || (this.state.selectedItem.index == 0) ? <CommunityEmptyStateComponent></CommunityEmptyStateComponent> :
+                <a>{this.state.isEmptyState || (this.state.selectedItem.index == 0 || newLoad) ? <CommunityEmptyStateComponent></CommunityEmptyStateComponent> :
                     <div>
                         <Card>
                             <CardContent>
@@ -82,7 +91,7 @@ export class CommunityInfoComponent extends React.Component {
                                 label='Get started'
                                 open={this.state.open}
                                 onClose={() => this.setState({ open: false })}
-                                onChange={() => this.onChange(++index)}
+                                onChange={() => ++index}
                                 onStart={() => this.onStart()}
                                 style={{ position: 'absolute' }}
                             >

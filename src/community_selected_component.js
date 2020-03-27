@@ -4,19 +4,36 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import ScrollableTabsButtonAuto from './community_selected_tabs_component';
+import * as firebase from 'firebase';
+
+var seasons = [];
 
 export class CommunitySelectedComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { index: -1 };
+        this.state = {
+            index: -1,
+            seasons: []
+        };
     }
 
     triggerUpdateState(index, user) {
-        this.setState({
-            index: index,
-            user: user
+        const rootRef = firebase.firestore().collection('seasons');
+        seasons.length = 0;
+        rootRef.get().then((snapshot) => {
+            snapshot.docs.forEach(doc => {
+                seasons.push(doc.data());
+            });
+            seasons.sort(function (a, b) {
+                return a.seasonID - b.seasonID;
+            });
+            this.setState({
+                index: index,
+                user: user,
+                seasons: seasons
+            });
+            this.render();
         });
-        this.render();
     };
 
     render() {
@@ -48,7 +65,7 @@ export class CommunitySelectedComponent extends React.Component {
                     <Card>
                         <CardContent>
                             <div>
-                                <ScrollableTabsButtonAuto user={this.state.user} ></ScrollableTabsButtonAuto>
+                                <ScrollableTabsButtonAuto user={this.state.user} seasons={this.state.seasons} ></ScrollableTabsButtonAuto>
                             </div>
                         </CardContent>
                     </Card>
