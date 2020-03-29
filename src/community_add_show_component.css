@@ -1,3 +1,21 @@
 .addShow {
     float: right;
 }
+
+.root {
+    flex-grow: 1;
+}
+
+.paper {
+    padding: 8px;
+    text-align: center;
+}
+
+.appBar {
+    position: relative;
+}
+
+.title {
+    margin-left: 8px;
+    flex: 1;
+}
