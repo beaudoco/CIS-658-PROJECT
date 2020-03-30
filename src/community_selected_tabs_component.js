@@ -77,7 +77,6 @@ export default function ScrollableTabsButtonAuto(props) {
           aria-label="scrollable auto tabs example"
         >
           {list.map(el => {
-            console.log(el);
             return <Tab label={el.season} {...a11yProps(el.seasonID)} />
           })}
         </Tabs>

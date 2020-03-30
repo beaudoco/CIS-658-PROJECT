@@ -17,10 +17,10 @@ var newLoad = true;
 export class CommunityInfoComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             isEmptyState: true,
             previousIndex: -1
-         };
+        };
     }
 
     triggerUpdateState(selectedItem, user) {
@@ -30,6 +30,10 @@ export class CommunityInfoComponent extends React.Component {
             user: user
         });
 
+        this.getShows();
+    };
+
+    getShows() {
         const rootRef = firebase.firestore().collection('shows');
         list.length = 0;
         rootRef.get().then((snapshot) => {
@@ -38,7 +42,11 @@ export class CommunityInfoComponent extends React.Component {
             });
             this.setState({ list: list });
         });
-    };
+    }
+
+    updateParent() {
+        this.getShows();
+    }
 
     onStart() {
         this.setState({ open: false });
@@ -52,7 +60,7 @@ export class CommunityInfoComponent extends React.Component {
         if (!this.state.isEmptyState) {
             if (this.state.previousIndex != this.state.selectedItem.index) {
                 newLoad = true;
-                this.setState({previousIndex: this.state.selectedItem.index});
+                this.setState({ previousIndex: this.state.selectedItem.index });
             } else {
                 newLoad = false;
             }
@@ -77,7 +85,7 @@ export class CommunityInfoComponent extends React.Component {
                                 </Typography>
                                 <p>
                                     <div className="outer">
-                                        <FullScreenDialog className="inner"></FullScreenDialog>
+                                        <FullScreenDialog printer={() => this.updateParent()} provider={this.state.selectedItem} className="inner"></FullScreenDialog>
                                         <Button color="primary" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button>
                                     </div>
                                 </p>

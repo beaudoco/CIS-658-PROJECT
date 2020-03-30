@@ -14,16 +14,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import * as firebase from 'firebase';
 
-const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: 'relative',
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -31,8 +21,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export class FullScreenDialog extends React.Component {
   constructor(props) {
     super(props);
+    //props.printer();
     this.state = {
-      open: false
+      open: false,
+      provider: props.provider,
+      printer: props.printer
     }
   }
 
@@ -42,7 +35,7 @@ export class FullScreenDialog extends React.Component {
     });
   };
 
-  handleClose() {
+  handleClose() {    
     this.setState({
       open: false
     });
@@ -51,11 +44,13 @@ export class FullScreenDialog extends React.Component {
   handleSave() {
     const rootRef = firebase.firestore().collection('shows');
     rootRef.add({
-      providerID: this.props.providerID,
+      providerID: this.state.provider.index,
       showDescription: document.getElementById('show-description').value,
       showID: Date.now() + Math.random(),
       showImage: document.getElementById('show-image').value,
       showTitle: document.getElementById('show-title').value
+    }).then(() => {
+      this.state.printer();
     });
 
     this.setState({
