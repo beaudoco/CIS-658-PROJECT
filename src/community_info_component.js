@@ -10,7 +10,7 @@ import { Slide } from 'material-auto-rotating-carousel';
 import * as firebase from 'firebase';
 import FullScreenDialog from './community_add_show_component';
 
-var index = 0;
+var idx = 0;
 var list = [];
 var newLoad = true;
 
@@ -50,7 +50,7 @@ export class CommunityInfoComponent extends React.Component {
 
     onStart() {
         this.setState({ open: false });
-        this._child.triggerUpdateState(list[index], this.state.user);
+        this._child.triggerUpdateState(list[idx % list.length], this.state.user);
     }
 
     render() {
@@ -99,7 +99,7 @@ export class CommunityInfoComponent extends React.Component {
                                 label='Get started'
                                 open={this.state.open}
                                 onClose={() => this.setState({ open: false })}
-                                onChange={() => ++index}
+                                onChange={(result) => idx = result}
                                 onStart={() => this.onStart()}
                                 style={{ position: 'absolute' }}
                             >
@@ -111,6 +111,7 @@ export class CommunityInfoComponent extends React.Component {
                                             style={{ backgroundColor: green[600] }}
                                             title={el.showTitle}
                                             subtitle={el.showDescription}
+
                                         />)
                                 }
                             </AutoRotatingCarousel>

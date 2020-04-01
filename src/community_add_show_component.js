@@ -21,11 +21,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export class FullScreenDialog extends React.Component {
   constructor(props) {
     super(props);
-    //props.printer();
     this.state = {
       open: false,
       provider: props.provider,
-      printer: props.printer
+      printer: props.printer,
+      showDescriptionErr: false,
+      showImageErr: false,
+      showTitleErr: false
     }
   }
 
@@ -42,20 +44,32 @@ export class FullScreenDialog extends React.Component {
   };
 
   handleSave() {
-    const rootRef = firebase.firestore().collection('shows');
-    rootRef.add({
-      providerID: this.state.provider.index,
-      showDescription: document.getElementById('show-description').value,
-      showID: Date.now() + Math.random(),
-      showImage: document.getElementById('show-image').value,
-      showTitle: document.getElementById('show-title').value
-    }).then(() => {
-      this.state.printer();
-    });
-
-    this.setState({
-      open: false
-    });
+    var tmpShowDescErr = (document.getElementById('show-description').value == '');
+    var tmpShowImageErr = (document.getElementById('show-image').value == '');
+    var tmpShowTitleErr = (document.getElementById('show-title').value == '');
+    
+    if (!(tmpShowDescErr || tmpShowImageErr || tmpShowTitleErr)) {
+      const rootRef = firebase.firestore().collection('shows');
+      rootRef.add({
+        providerID: this.state.provider.index,
+        showDescription: document.getElementById('show-description').value,
+        showID: Date.now() + Math.random(),
+        showImage: document.getElementById('show-image').value,
+        showTitle: document.getElementById('show-title').value
+      }).then(() => {
+        this.state.printer();
+      });
+  
+      this.setState({
+        open: false
+      });
+    } else {
+      this.setState({
+        showDescriptionErr: tmpShowDescErr,
+        showImageErr: tmpShowImageErr,
+        showTitleErr: tmpShowTitleErr
+      });
+    }
   };
 
   render() {
@@ -89,6 +103,8 @@ export class FullScreenDialog extends React.Component {
                 <Paper className="paper">
                   <TextField
                     id="show-title"
+                    error={this.state.showTitleErr}
+                    helperText={this.state.showTitleErr ? "Please enter a show title" : ""}
                     label="Show Title"
                     fullWidth
                     margin="normal"
@@ -103,6 +119,8 @@ export class FullScreenDialog extends React.Component {
                 <Paper className="paper">
                   <TextField
                     id="show-description"
+                    error={this.state.showDescriptionErr}
+                    helperText={this.state.showDescriptionErr ? "Please enter a show description" : ""}
                     label="Show Description"
                     fullWidth
                     margin="normal"
@@ -117,6 +135,8 @@ export class FullScreenDialog extends React.Component {
                 <Paper className="paper">
                   <TextField
                     id="show-image"
+                    error={this.state.showImageErr}
+                    helperText={this.state.showImageErr ? "Please enter a show image" : ""}
                     label="Show Image"
                     fullWidth
                     margin="normal"

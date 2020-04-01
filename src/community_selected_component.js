@@ -3,6 +3,7 @@ import './community_component.css';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
 import ScrollableTabsButtonAuto from './community_selected_tabs_component';
 import * as firebase from 'firebase';
 
@@ -36,6 +37,10 @@ export class CommunitySelectedComponent extends React.Component {
         });
     };
 
+    handleDelete() {
+        console.log("Hello");
+    }
+
     render() {
         return (
             <div className="CommunitySelectedComponent">
@@ -49,14 +54,21 @@ export class CommunitySelectedComponent extends React.Component {
                             eachother on one common platform. Community offers the unique opportunity for
                             users to share their opinions and theories of their favorite shows. It also
                             allows for users to connect and learn more about similar TV shows.
-                                <br></br>
+                            <br></br>
                             <br></br>
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                             Users can link shows that they find similar. Feel free to search our continuously
                             growing catalog of TV shows for your favorites! Users are also welcome to add new
                             shows as they like.
-                            </Typography>
+                        </Typography>
+                        <br></br>
+                        {this.state.index == -1 ? "" : 
+                        this.state.index.relatedShows != undefined ? 
+                        this.state.index.relatedShows.map(el => {
+                            return <Chip label={el} onDelete={() => this.handleDelete()} color="primary" />
+                        }) : ""
+                        }
                     </CardContent>
                 </Card>
                 <br></br>
