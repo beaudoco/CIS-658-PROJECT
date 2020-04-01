@@ -50,7 +50,7 @@ export class CommunityInfoComponent extends React.Component {
 
     onStart() {
         this.setState({ open: false });
-        this._child.triggerUpdateState(list[idx % list.length], this.state.user);
+        this._child.triggerUpdateState(list[idx % list.length], this.state.user, list);
     }
 
     render() {
@@ -107,8 +107,8 @@ export class CommunityInfoComponent extends React.Component {
                                     list.map(el =>
                                         <Slide
                                             media={<img src={el.showImage} />}
-                                            mediaBackgroundStyle={{ backgroundColor: green[400] }}
-                                            style={{ backgroundColor: green[600] }}
+                                            mediaBackgroundStyle={{ backgroundColor: blue[400] }}
+                                            style={{ backgroundColor: blue[600] }}
                                             title={el.showTitle}
                                             subtitle={el.showDescription}
 

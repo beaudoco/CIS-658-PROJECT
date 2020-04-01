@@ -6,6 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import ScrollableTabsButtonAuto from './community_selected_tabs_component';
 import * as firebase from 'firebase';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import { Button } from '@material-ui/core';
 
 var seasons = [];
 
@@ -14,11 +17,12 @@ export class CommunitySelectedComponent extends React.Component {
         super(props);
         this.state = {
             index: -1,
-            seasons: []
+            seasons: [],
+            shows: []
         };
     }
 
-    triggerUpdateState(index, user) {
+    triggerUpdateState(index, user, shows) {
         const rootRef = firebase.firestore().collection('seasons');
         seasons.length = 0;
         rootRef.get().then((snapshot) => {
@@ -31,7 +35,8 @@ export class CommunitySelectedComponent extends React.Component {
             this.setState({
                 index: index,
                 user: user,
-                seasons: seasons
+                seasons: seasons,
+                shows: shows
             });
             this.render();
         });
@@ -63,11 +68,27 @@ export class CommunitySelectedComponent extends React.Component {
                             shows as they like.
                         </Typography>
                         <br></br>
-                        {this.state.index == -1 ? "" : 
-                        this.state.index.relatedShows != undefined ? 
-                        this.state.index.relatedShows.map(el => {
-                            return <Chip label={el} onDelete={() => this.handleDelete()} color="primary" />
-                        }) : ""
+                        {this.state.index == -1 ? "" :
+                            this.state.index.relatedShows != undefined ?
+                                this.state.index.relatedShows.map(el => {
+                                    return <div>
+                                        <div class="outter">
+                                            <Button color="primary" className="inner-right" style={{ marginTop: 10 }} onClick={() => console.log("hello")} >Add Show</Button>
+                                            <Autocomplete
+                                                id="similar-show"
+                                                className="inner"
+                                                options={this.state.shows}
+                                                getOptionLabel={(option) => option.showTitle}
+                                                style={{ width: 300 }}
+                                                renderInput={(params) => <TextField {...params} label="Add Similar Show" variant="outlined" />} />
+                                        </div>
+                                        <br></br>
+                                        <br></br>
+                                        <div class="outter pad">
+                                            <Chip label={el} className="inner" onDelete={() => this.handleDelete()} color="primary" />
+                                        </div>
+                                    </div>
+                                }) : ""
                         }
                     </CardContent>
                 </Card>
