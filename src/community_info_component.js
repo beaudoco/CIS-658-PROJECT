@@ -38,7 +38,11 @@ export class CommunityInfoComponent extends React.Component {
         list.length = 0;
         rootRef.get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
-                list.push(doc.data());
+                const tmpObj = {
+                    doc: doc.data(),
+                    id: doc.id
+                }
+                list.push(tmpObj);
             });
             this.setState({ list: list });
         });
@@ -80,9 +84,6 @@ export class CommunityInfoComponent extends React.Component {
                                     <br></br>
                                     <br></br>
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    {this.list}
-                                </Typography>
                                 <p>
                                     <div className="outer">
                                         <FullScreenDialog printer={() => this.updateParent()} provider={this.state.selectedItem} className="inner"></FullScreenDialog>
@@ -106,11 +107,11 @@ export class CommunityInfoComponent extends React.Component {
                                 {list[0] == undefined ? '' :
                                     list.map(el =>
                                         <Slide
-                                            media={<img src={el.showImage} />}
+                                            media={<img src={el.doc.showImage} />}
                                             mediaBackgroundStyle={{ backgroundColor: blue[400] }}
                                             style={{ backgroundColor: blue[600] }}
-                                            title={el.showTitle}
-                                            subtitle={el.showDescription}
+                                            title={el.doc.showTitle}
+                                            subtitle={el.doc.showDescription}
 
                                         />)
                                 }

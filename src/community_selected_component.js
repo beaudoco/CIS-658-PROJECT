@@ -18,7 +18,9 @@ export class CommunitySelectedComponent extends React.Component {
         this.state = {
             index: -1,
             seasons: [],
-            shows: []
+            shows: [],
+            isErr: false,
+            errMessage: ''
         };
     }
 
@@ -32,18 +34,81 @@ export class CommunitySelectedComponent extends React.Component {
             seasons.sort(function (a, b) {
                 return a.seasonID - b.seasonID;
             });
+            var tmpShows = [];
+            var tmpdocObj = [];
+            shows.forEach(show => {
+                tmpShows.push(show.doc);
+                const tmpObj = {
+                    showID: show.doc.showID,
+                    docID: show.id
+                };
+                tmpdocObj.push(tmpObj);
+            });
             this.setState({
-                index: index,
+                index: index.doc,
                 user: user,
                 seasons: seasons,
-                shows: shows
+                shows: tmpShows,
+                docObj: tmpdocObj
             });
             this.render();
         });
     };
 
-    handleDelete() {
-        console.log("Hello");
+    handleDelete(el) {
+        const tmpDocID = this.state.docObj.find(x => x.showID == this.state.index.showID);
+        const rootRef = firebase.firestore().collection('shows');
+        rootRef.doc(tmpDocID.docID).update({
+            relatedShows: firebase.firestore.FieldValue.arrayRemove(el)
+        }).then(() => {
+            const tmpShows = this.state.index.relatedShows;
+            var showsList = [];
+            tmpShows.forEach((show) => {
+                if(show !== el) {
+                    showsList.push(show);
+                }
+            });
+            const tmpIdx = this.state.index;
+            this.setState({
+                index: {
+                    showID: tmpIdx.showID,
+                    showTitle: tmpIdx.showTitle,
+                    relatedShows: showsList,
+                    showDescription: tmpIdx.showDescription,
+                    showImage: tmpIdx.showImage,
+                    providerID: tmpIdx.providerID
+                }
+            });
+        });
+    }
+
+    handleSave() {
+        if (document.getElementById("similar-show").value == '') {
+            this.setState({
+                errMessage: "Please Select a Show",
+                isErr: true
+            });
+        } else {
+            const tmpDocID = this.state.docObj.find(x => x.showID == this.state.index.showID);
+            const rootRef = firebase.firestore().collection('shows');
+            rootRef.doc(tmpDocID.docID).update({
+                relatedShows: firebase.firestore.FieldValue.arrayUnion(document.getElementById("similar-show").value)
+            }).then(() => {
+                var tmpShows = this.state.index.relatedShows;
+                tmpShows.push(document.getElementById("similar-show").value);
+                const tmpIdx = this.state.index;
+                this.setState({
+                    index: {
+                        showID: tmpIdx.showID,
+                        showTitle: tmpIdx.showTitle,
+                        relatedShows: tmpShows,
+                        showDescription: tmpIdx.showDescription,
+                        showImage: tmpIdx.showImage,
+                        providerID: tmpIdx.providerID
+                    }
+                });
+            });
+        }
     }
 
     render() {
@@ -73,22 +138,23 @@ export class CommunitySelectedComponent extends React.Component {
                                 this.state.index.relatedShows.map(el => {
                                     return <div>
                                         <div class="outter">
-                                            <Button color="primary" className="inner-right" style={{ marginTop: 10 }} onClick={() => console.log("hello")} >Add Show</Button>
-                                            <Autocomplete
-                                                id="similar-show"
-                                                className="inner"
-                                                options={this.state.shows}
-                                                getOptionLabel={(option) => option.showTitle}
-                                                style={{ width: 300 }}
-                                                renderInput={(params) => <TextField {...params} label="Add Similar Show" variant="outlined" />} />
+                                            <Chip label={el} className="inner" onDelete={() => this.handleDelete(el)} color="primary" />
                                         </div>
-                                        <br></br>
-                                        <br></br>
-                                        <div class="outter pad">
-                                            <Chip label={el} className="inner" onDelete={() => this.handleDelete()} color="primary" />
-                                        </div>
+
                                     </div>
                                 }) : ""
+                        }
+                        {this.state.index == -1 ? "" :
+                            <div style={{ marginTop: 50, marginBottom: 40 }} class="outter pad">
+                                <Button color="primary" className="inner-right" style={{ marginTop: 10 }} onClick={() => this.handleSave()} >Add Show</Button>
+                                <Autocomplete
+                                    id="similar-show"
+                                    className="inner"
+                                    options={this.state.shows}
+                                    getOptionLabel={(option) => option.showTitle}
+                                    style={{ width: 300 }}
+                                    renderInput={(params) => <TextField {...params} helperText={this.state.errMessage} error={this.state.isErr} label="Add Similar Show" variant="outlined" />} />
+                            </div>
                         }
                     </CardContent>
                 </Card>
