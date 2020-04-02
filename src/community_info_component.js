@@ -24,6 +24,7 @@ export class CommunityInfoComponent extends React.Component {
     }
 
     triggerUpdateState(selectedItem, user) {
+        idx = 0;
         this.setState({
             isEmptyState: false,
             selectedItem: selectedItem,

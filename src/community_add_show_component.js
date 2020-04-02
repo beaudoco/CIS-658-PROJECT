@@ -54,7 +54,8 @@ export class FullScreenDialog extends React.Component {
         showDescription: document.getElementById('show-description').value,
         showID: Date.now() + Math.random(),
         showImage: document.getElementById('show-image').value,
-        showTitle: document.getElementById('show-title').value
+        showTitle: document.getElementById('show-title').value,
+        relatedShows: []
       }).then(() => {
         this.state.printer();
       });

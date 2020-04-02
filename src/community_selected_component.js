@@ -64,7 +64,7 @@ export class CommunitySelectedComponent extends React.Component {
             const tmpShows = this.state.index.relatedShows;
             var showsList = [];
             tmpShows.forEach((show) => {
-                if(show !== el) {
+                if (show !== el) {
                     showsList.push(show);
                 }
             });
