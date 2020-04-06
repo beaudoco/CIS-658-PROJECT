@@ -88,7 +88,7 @@ export default function ScrollableTabsButtonAuto(props) {
       >
         {list.map(el => {
           return <TabPanel value={value} index={el.seasonID - 1} dir={theme.direction}>
-            <AlignItemsList user={props.user}></AlignItemsList>
+            <AlignItemsList season={el.seasonID} user={props.user}></AlignItemsList>
           </TabPanel>
         })}
       </SwipeableViews>

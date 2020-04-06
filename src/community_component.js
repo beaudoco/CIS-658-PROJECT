@@ -7,7 +7,7 @@ import * as firebase from 'firebase';
 import { APICallsService } from './community_api';
 
 var list = [
-    { index: 0, title: 'Add +' },
+    { index: 0, title: 'Home' },
 ];
 
 var MenuItem = ({ text, selected }) => {

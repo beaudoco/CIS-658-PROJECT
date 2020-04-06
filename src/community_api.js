@@ -1,7 +1,3 @@
-// import React from 'react';
-// import * as firebase from 'firebase';
-
-// const rootRef = firebase.firestore();
 export class APICallsService {
     addShows(rootRef, showObj, printer) {
         rootRef.add(showObj).then(() => {

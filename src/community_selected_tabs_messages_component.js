@@ -51,7 +51,8 @@ export class AlignItemsList extends React.Component {
             isError: false,
             errorMessage: "",
             user: props.user,
-            list: list
+            list: list,
+            seasonID: props.season
         };
         this.listItems = ListItemEl(this.state.list);
     }
@@ -71,7 +72,7 @@ export class AlignItemsList extends React.Component {
             const rootRef = firebase.firestore().collection('comments');
             const tmpCommentObj = {
                 comment: document.getElementById("outlined-comment-text").value,
-                seasonID: 1,
+                seasonID: this.state.seasonID,
                 time: new Date(),
                 userImage: this.props.user.imageUrl,
                 username: this.props.user.name
