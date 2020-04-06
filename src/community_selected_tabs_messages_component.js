@@ -11,6 +11,7 @@ import { Button } from '@material-ui/core';
 import './community_selected_tabs_messages_component.css';
 import FormControl from '@material-ui/core/FormControl';
 import * as firebase from 'firebase';
+import { APICallsService } from './community_api';
 
 var list = [];
 
@@ -45,6 +46,7 @@ export var ListItemEl = (list) =>
 export class AlignItemsList extends React.Component {
     constructor(props) {
         super(props);
+        this.apiCallsService = new APICallsService;
         this.state = {
             isError: false,
             errorMessage: "",
@@ -67,15 +69,18 @@ export class AlignItemsList extends React.Component {
             tmpIsErr = true;
         } else {
             const rootRef = firebase.firestore().collection('comments');
-            rootRef.add({
+            const tmpCommentObj = {
                 comment: document.getElementById("outlined-comment-text").value,
                 seasonID: 1,
                 time: new Date(),
                 userImage: this.props.user.imageUrl,
                 username: this.props.user.name
+            }
+
+            this.apiCallsService.addComments(rootRef, tmpCommentObj).then(() => {
+                document.getElementById("outlined-comment-text").value = "";
+                this.componentDidMount();
             });
-            document.getElementById("outlined-comment-text").value = "";
-            this.componentDidMount();
         }
 
         this.setState({
@@ -88,15 +93,13 @@ export class AlignItemsList extends React.Component {
         const rootRef = firebase.firestore().collection('comments');
         list.length = 0;
 
-        rootRef.get().then((snapshot) => {
-            snapshot.docs.forEach(doc => {
-                list.push(doc.data());
-            });
-            list.sort(function (a, b) {
-                return a.time.seconds - b.time.seconds;
-            });
+        this.apiCallsService.getComments(rootRef).then((tmpList) => {
+            for (var i = 0; i < tmpList.length; i++) {
+                list.push(tmpList[i]);
+            }
             this.listItems = ListItemEl(this.state.list);
             this.setState({ list: list });
+
         });
     }
 

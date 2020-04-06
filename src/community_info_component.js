@@ -9,6 +9,7 @@ import { AutoRotatingCarousel } from 'material-auto-rotating-carousel';
 import { Slide } from 'material-auto-rotating-carousel';
 import * as firebase from 'firebase';
 import FullScreenDialog from './community_add_show_component';
+import { APICallsService } from './community_api';
 
 var idx = 0;
 var list = [];
@@ -17,6 +18,7 @@ var newLoad = true;
 export class CommunityInfoComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.apiCallsService = new APICallsService();
         this.state = {
             isEmptyState: true,
             previousIndex: -1
@@ -37,14 +39,10 @@ export class CommunityInfoComponent extends React.Component {
     getShows() {
         const rootRef = firebase.firestore().collection('shows');
         list.length = 0;
-        rootRef.get().then((snapshot) => {
-            snapshot.docs.forEach(doc => {
-                const tmpObj = {
-                    doc: doc.data(),
-                    id: doc.id
-                }
-                list.push(tmpObj);
-            });
+        this.apiCallsService.getShows(rootRef).then((tmpList) => {
+            for (var i = 0; i < tmpList.length; i++) {
+                list.push(tmpList[i]);
+            }
             this.setState({ list: list });
         });
     }

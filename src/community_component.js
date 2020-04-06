@@ -4,6 +4,7 @@ import './community_component.css';
 import { Card, Typography, CardContent, CardActionArea } from '@material-ui/core';
 import CommunityInfoComponent from './community_info_component';
 import * as firebase from 'firebase';
+import { APICallsService } from './community_api';
 
 var list = [
     { index: 0, title: 'Add +' },
@@ -42,6 +43,7 @@ const selected = '';
 export class CommunityComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.apiCallsService = new APICallsService();
         this.state = {
             list: list,
             user: null
@@ -67,10 +69,11 @@ export class CommunityComponent extends React.Component {
 
     componentDidMount() {
         const rootRef = firebase.firestore().collection('providers');
-        rootRef.get().then((snapshot) => {
-            snapshot.docs.forEach(doc => {
-                list.push(doc.data());
-            });
+        this.apiCallsService.getProviders(rootRef).then((tmpList) => {
+            for (var i = 0; i < tmpList.length; i++) {
+                list.push(tmpList[i]);
+            }
+
             this.menuItems = Menu(this.state.list, selected);
             this.setState({ list: list });
         });
@@ -96,7 +99,6 @@ export class CommunityComponent extends React.Component {
                 <br></br>
                 <CommunityInfoComponent ref={component => this._child = component} ></CommunityInfoComponent>
             </div>
-
         );
     }
 }

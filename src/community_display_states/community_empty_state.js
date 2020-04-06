@@ -17,9 +17,9 @@ export class CommunityEmptyStateComponent extends React.Component {
                             What is Community?
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Community is an opportunity for fans of all sorts of TV shows to connect with 
-                            eachother on one common platform. Community offers the unique opportunity for 
-                            users to share their opinions and theories of their favorite shows. It also 
+                            Community is an opportunity for fans of all sorts of TV shows to connect with
+                            eachother on one common platform. Community offers the unique opportunity for
+                            users to share their opinions and theories of their favorite shows. It also
                             allows for users to connect and learn more about similar TV shows.
                             <br></br>
                             <br></br>
@@ -30,7 +30,7 @@ export class CommunityEmptyStateComponent extends React.Component {
                             shows as they like.
                         </Typography>
                     </CardContent>
-                </Card>                 
+                </Card>
             </div>
         );
     }

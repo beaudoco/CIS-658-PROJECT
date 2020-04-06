@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import * as firebase from 'firebase';
+import { APICallsService } from './community_api';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -20,6 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export class FullScreenDialog extends React.Component {
   constructor(props) {
     super(props);
+    this.apiCallsService = new APICallsService();
     this.state = {
       open: false,
       provider: props.provider,
@@ -36,7 +38,7 @@ export class FullScreenDialog extends React.Component {
     });
   };
 
-  handleClose() {    
+  handleClose() {
     this.setState({
       open: false
     });
@@ -46,20 +48,19 @@ export class FullScreenDialog extends React.Component {
     var tmpShowDescErr = (document.getElementById('show-description').value == '');
     var tmpShowImageErr = (document.getElementById('show-image').value == '');
     var tmpShowTitleErr = (document.getElementById('show-title').value == '');
-    
+
     if (!(tmpShowDescErr || tmpShowImageErr || tmpShowTitleErr)) {
       const rootRef = firebase.firestore().collection('shows');
-      rootRef.add({
+      const showObj = {
         providerID: this.state.provider.index,
         showDescription: document.getElementById('show-description').value,
         showID: Date.now() + Math.random(),
         showImage: document.getElementById('show-image').value,
         showTitle: document.getElementById('show-title').value,
         relatedShows: []
-      }).then(() => {
-        this.state.printer();
-      });
-  
+      }
+      this.apiCallsService.addShows(rootRef, showObj, this.state.printer);
+
       this.setState({
         open: false
       });

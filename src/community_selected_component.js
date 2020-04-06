@@ -9,12 +9,14 @@ import * as firebase from 'firebase';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
+import { APICallsService } from './community_api';
 
 var seasons = [];
 
 export class CommunitySelectedComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.apiCallsService = new APICallsService();
         this.state = {
             index: -1,
             seasons: [],
@@ -27,13 +29,12 @@ export class CommunitySelectedComponent extends React.Component {
     triggerUpdateState(index, user, shows) {
         const rootRef = firebase.firestore().collection('seasons');
         seasons.length = 0;
-        rootRef.get().then((snapshot) => {
-            snapshot.docs.forEach(doc => {
-                seasons.push(doc.data());
-            });
-            seasons.sort(function (a, b) {
-                return a.seasonID - b.seasonID;
-            });
+
+        this.apiCallsService.getSeasons(rootRef).then((tmpSeasons) => {
+            for (var i = 0; i < tmpSeasons.length; i++) {
+                seasons.push(tmpSeasons[i]);
+            }
+
             var tmpShows = [];
             var tmpdocObj = [];
             shows.forEach(show => {
@@ -51,16 +52,16 @@ export class CommunitySelectedComponent extends React.Component {
                 shows: tmpShows,
                 docObj: tmpdocObj
             });
-            this.render();
+            //this.render();
         });
     };
 
     handleDelete(el) {
         const tmpDocID = this.state.docObj.find(x => x.showID == this.state.index.showID);
         const rootRef = firebase.firestore().collection('shows');
-        rootRef.doc(tmpDocID.docID).update({
-            relatedShows: firebase.firestore.FieldValue.arrayRemove(el)
-        }).then(() => {
+        const tmpRelatedShows = firebase.firestore.FieldValue.arrayRemove(el);
+
+        this.apiCallsService.deleteRelatedShows(rootRef, tmpDocID.docID, tmpRelatedShows).then(() => {
             const tmpShows = this.state.index.relatedShows;
             var showsList = [];
             tmpShows.forEach((show) => {
@@ -91,9 +92,9 @@ export class CommunitySelectedComponent extends React.Component {
         } else {
             const tmpDocID = this.state.docObj.find(x => x.showID == this.state.index.showID);
             const rootRef = firebase.firestore().collection('shows');
-            rootRef.doc(tmpDocID.docID).update({
-                relatedShows: firebase.firestore.FieldValue.arrayUnion(document.getElementById("similar-show").value)
-            }).then(() => {
+            const tmpRelatedShows = firebase.firestore.FieldValue.arrayUnion(document.getElementById("similar-show").value);
+
+            this.apiCallsService.addRelatedShows(rootRef, tmpDocID.docID, tmpRelatedShows).then(() => {
                 var tmpShows = this.state.index.relatedShows;
                 tmpShows.push(document.getElementById("similar-show").value);
                 const tmpIdx = this.state.index;
