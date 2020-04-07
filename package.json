@@ -17,12 +17,13 @@
     "react-google-login": "^5.1.0",
     "react-horizontal-scrolling-menu": "^0.7.5",
     "react-scripts": "3.3.0",
-    "react-swipeable-views": "^0.13.8"
+    "react-swipeable-views": "^0.13.8",
+    "yarn": "^1.22.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -38,6 +39,18 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.9.0",
+    "jest": "^25.2.7",
+    "react-test-renderer": "^16.13.1"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+         "node_modules/(?!(jest-)?react|@?react-navigation)"
     ]
   }
 }
