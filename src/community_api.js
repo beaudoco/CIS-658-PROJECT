@@ -1,9 +1,4 @@
 export class APICallsService {
-    addShows(rootRef, showObj, printer) {
-        rootRef.add(showObj).then(() => {
-            printer();
-        });
-    }
 
     async getProviders(rootRef) {
         var list = [];
@@ -12,6 +7,12 @@ export class APICallsService {
                 list.push(doc.data());
             });
             return list;
+        });
+    }
+
+    addShows(rootRef, showObj, printer) {
+        rootRef.add(showObj).then(() => {
+            printer();
         });
     }
 
@@ -42,13 +43,7 @@ export class APICallsService {
         });
     }
 
-    async addRelatedShows(rootRef, docID, relatedShows) {
-        return rootRef.doc(docID).update({
-            relatedShows: relatedShows
-        });
-    }
-
-    async deleteRelatedShows(rootRef, docID, relatedShows) {
+    async updateRelatedShows(rootRef, docID, relatedShows) {
         return rootRef.doc(docID).update({
             relatedShows: relatedShows
         });

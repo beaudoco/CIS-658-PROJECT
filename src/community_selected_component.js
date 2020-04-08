@@ -61,7 +61,7 @@ export class CommunitySelectedComponent extends React.Component {
         const rootRef = firebase.firestore().collection('shows');
         const tmpRelatedShows = firebase.firestore.FieldValue.arrayRemove(el);
 
-        this.apiCallsService.deleteRelatedShows(rootRef, tmpDocID.docID, tmpRelatedShows).then(() => {
+        this.apiCallsService.updateRelatedShows(rootRef, tmpDocID.docID, tmpRelatedShows).then(() => {
             const tmpShows = this.state.index.relatedShows;
             var showsList = [];
             tmpShows.forEach((show) => {
@@ -94,7 +94,7 @@ export class CommunitySelectedComponent extends React.Component {
             const rootRef = firebase.firestore().collection('shows');
             const tmpRelatedShows = firebase.firestore.FieldValue.arrayUnion(document.getElementById("similar-show").value);
 
-            this.apiCallsService.addRelatedShows(rootRef, tmpDocID.docID, tmpRelatedShows).then(() => {
+            this.apiCallsService.updateRelatedShows(rootRef, tmpDocID.docID, tmpRelatedShows).then(() => {
                 var tmpShows = this.state.index.relatedShows;
                 tmpShows.push(document.getElementById("similar-show").value);
                 const tmpIdx = this.state.index;
