@@ -77,7 +77,17 @@ class Game extends React.Component {
         <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
         <script src="/__/firebase/7.8.1/firebase-app.js"></script>
         <script src="/__/firebase/7.8.1/firebase-analytics.js"></script>
-        <script src="/__/firebase/init.js"></script>
+        <script src="/__/firebase/init.js"></script>        
+
+        {/* <!-- update the version number as needed -->
+        <script defer src="/__/firebase/7.8.1/firebase-app.js"></script>
+        <!-- include only the Firebase features as you need -->
+        <script defer src="/__/firebase/7.8.1/firebase-auth.js"></script>
+        <script defer src="/__/firebase/7.8.1/firebase-database.js"></script>
+        <script defer src="/__/firebase/7.8.1/firebase-messaging.js"></script>
+        <script defer src="/__/firebase/7.8.1/firebase-storage.js"></script>
+        <!-- initialize the SDK after all desired features are loaded -->
+        <script defer src="/__/firebase/init.js"></script> */}
       </div>
     );
   }
