@@ -1,6 +1,6 @@
 {
   "name": "test-app",
-  "homepage": "https://cis-658-1580957541230.firebaseapp.com/",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
