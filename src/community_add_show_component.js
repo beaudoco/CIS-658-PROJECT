@@ -46,7 +46,8 @@ export class FullScreenDialog extends React.Component {
 
   handleSave() {
     var tmpShowDescErr = (document.getElementById('show-description').value == '');
-    var tmpShowImageErr = (document.getElementById('show-image').value == '');
+    var tmpShowImageErr = (document.getElementById('show-image').value == ''
+      || !RegExp('^.*\.(?:jpg|gif|png)').test(document.getElementById('show-image').value));
     var tmpShowTitleErr = (document.getElementById('show-title').value == '');
 
     if (!(tmpShowDescErr || tmpShowImageErr || tmpShowTitleErr)) {

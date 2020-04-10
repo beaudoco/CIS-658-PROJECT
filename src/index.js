@@ -40,15 +40,12 @@ class Game extends React.Component {
   render() {
     const responseGoogle = (response) => {
       var tmpUser = response.profileObj;
-      user = tmpUser;
-      this._child.triggerUpdateState(user);
+      this._child.triggerUpdateState(tmpUser);
       this.setState({
         user: tmpUser
       });
-
     }
-    const loggedInUser = user;
-    
+
     return (
       <div>
         <h1>
@@ -60,11 +57,12 @@ class Game extends React.Component {
                   CIS 658
               </Typography>
                 <GoogleLogin
-                  clientId="569471380445-d1t8q5o2afotehccphv8bur7qe520t2t.apps.googleusercontent.com"
-                  buttonText={loggedInUser.givenName ? "Welcome " + loggedInUser.givenName : "Login"}
+                  clientId="569471380445-m97no7296bifg4kvqoditavfsaobjbbi.apps.googleusercontent.com"
+                  buttonText={this.state.user ? this.state.user.givenName !== null ? "Welcome " + this.state.user.givenName : "Login" : "Login"}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
                   isSignedIn={true}
+                  disabled={false}
                   cookiePolicy={'single_host_origin'}
                 />
               </Toolbar>
@@ -77,7 +75,7 @@ class Game extends React.Component {
         <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
         <script src="/__/firebase/7.8.1/firebase-app.js"></script>
         <script src="/__/firebase/7.8.1/firebase-analytics.js"></script>
-        <script src="/__/firebase/init.js"></script>        
+        <script src="/__/firebase/init.js"></script>
 
         {/* <!-- update the version number as needed -->
         <script defer src="/__/firebase/7.8.1/firebase-app.js"></script>

@@ -53,7 +53,22 @@ export class CommunityInfoComponent extends React.Component {
 
     onStart() {
         this.setState({ open: false });
-        this._child.triggerUpdateState(list[idx % list.length], this.state.user, list);
+        var tmpList = [];
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].doc.showTitle != list[idx % list.length].doc.showTitle) {
+                var exists = false;
+                for (var j = 0; j < list[idx % list.length].doc.relatedShows.length; j++) {
+                    if (list[i].doc.showTitle == list[idx % list.length].doc.relatedShows[j]) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists) {
+                    tmpList.push(list[i]);
+                }
+            }
+        }
+        this._child.triggerUpdateState(list[idx % list.length], this.state.user, list, tmpList);
     }
 
     render() {

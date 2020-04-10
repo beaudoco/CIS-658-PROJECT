@@ -96,7 +96,9 @@ export class AlignItemsList extends React.Component {
 
         this.apiCallsService.getComments(rootRef).then((tmpList) => {
             for (var i = 0; i < tmpList.length; i++) {
-                list.push(tmpList[i]);
+                if (tmpList[i].seasonID == this.state.seasonID) {
+                    list.push(tmpList[i]);
+                }
             }
             this.listItems = ListItemEl(this.state.list);
             this.setState({ list: list });

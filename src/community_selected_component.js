@@ -26,7 +26,7 @@ export class CommunitySelectedComponent extends React.Component {
         };
     }
 
-    triggerUpdateState(index, user, shows) {
+    triggerUpdateState(index, user, shows, filteredShows) {
         const rootRef = firebase.firestore().collection('seasons');
         seasons.length = 0;
 
@@ -37,6 +37,7 @@ export class CommunitySelectedComponent extends React.Component {
 
             var tmpShows = [];
             var tmpdocObj = [];
+            var tmpFilteredShows = [];
             shows.forEach(show => {
                 tmpShows.push(show.doc);
                 const tmpObj = {
@@ -45,11 +46,15 @@ export class CommunitySelectedComponent extends React.Component {
                 };
                 tmpdocObj.push(tmpObj);
             });
+            filteredShows.forEach(show => {
+                tmpFilteredShows.push(show.doc);
+            });
             this.setState({
                 index: index.doc,
                 user: user,
                 seasons: seasons,
                 shows: tmpShows,
+                filteredShows: tmpFilteredShows,
                 docObj: tmpdocObj
             });
             //this.render();
@@ -69,8 +74,16 @@ export class CommunitySelectedComponent extends React.Component {
                     showsList.push(show);
                 }
             });
+            var tmpShowList = this.state.filteredShows;
+            for (var i = 0; i < this.state.shows.length; i++) {
+                if (this.state.shows[i].showTitle == el) {
+                    tmpShowList.push(this.state.shows[i]);
+                }
+            }
+
             const tmpIdx = this.state.index;
             this.setState({
+                filteredShows: tmpShowList,
                 index: {
                     showID: tmpIdx.showID,
                     showTitle: tmpIdx.showTitle,
@@ -94,11 +107,45 @@ export class CommunitySelectedComponent extends React.Component {
             const rootRef = firebase.firestore().collection('shows');
             const tmpRelatedShows = firebase.firestore.FieldValue.arrayUnion(document.getElementById("similar-show").value);
 
+            if (this.state.index.relatedShows.length > 0) {
+                for (var idx = 0; idx < this.state.index.relatedShows.length; idx++) {
+                    if (this.state.index.relatedShows[idx] == document.getElementById("similar-show").value) {
+                        this.setState({
+                            errMessage: "Please Select a Show That Isn't Used",
+                            isErr: true
+                        });
+                        return;
+                    }
+                }
+            }
+
             this.apiCallsService.updateRelatedShows(rootRef, tmpDocID.docID, tmpRelatedShows).then(() => {
                 var tmpShows = this.state.index.relatedShows;
                 tmpShows.push(document.getElementById("similar-show").value);
                 const tmpIdx = this.state.index;
+
+                var tmpShowList = [];
+                for (var i = 0; i < this.state.shows.length; i++) {
+                    var dontAdd = false;
+                    if (this.state.shows[i].showTitle.toLowerCase() != document.getElementById("similar-show").value.toLowerCase()
+                        && this.state.shows[i].showTitle.toLowerCase() != this.state.index.showTitle.toLowerCase()) {
+                        for (var j = 0; j < tmpShows.length; j++) {
+                            if (tmpShows[j].toLowerCase() == this.state.shows[i].showTitle.toLowerCase()) {
+                                dontAdd = true;
+                                break;
+                            }
+                        }
+                        if (!dontAdd) {
+                            tmpShowList.push(this.state.shows[i]);
+                        }
+                    }
+                }
+
+                document.getElementById("similar-show").value = "";
                 this.setState({
+                    errMessage: "",
+                    isErr: false,
+                    filteredShows: tmpShowList,
                     index: {
                         showID: tmpIdx.showID,
                         showTitle: tmpIdx.showTitle,
@@ -109,6 +156,7 @@ export class CommunitySelectedComponent extends React.Component {
                     }
                 });
             });
+
         }
     }
 
@@ -151,7 +199,7 @@ export class CommunitySelectedComponent extends React.Component {
                                 <Autocomplete
                                     id="similar-show"
                                     className="inner"
-                                    options={this.state.shows}
+                                    options={this.state.filteredShows}
                                     getOptionLabel={(option) => option.showTitle}
                                     style={{ width: 300 }}
                                     renderInput={(params) => <TextField {...params} helperText={this.state.errMessage} error={this.state.isErr} label="Add Similar Show" variant="outlined" />} />
