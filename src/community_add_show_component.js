@@ -50,17 +50,27 @@ export class FullScreenDialog extends React.Component {
       || !RegExp('^.*\.(?:jpg|gif|png)').test(document.getElementById('show-image').value));
     var tmpShowTitleErr = (document.getElementById('show-title').value == '');
 
+    const tmpShowID = Date.now() + Math.random();
+
     if (!(tmpShowDescErr || tmpShowImageErr || tmpShowTitleErr)) {
-      const rootRef = firebase.firestore().collection('shows');
+      const rootRef = firebase.firestore();
       const showObj = {
         providerID: this.state.provider.index,
         showDescription: document.getElementById('show-description').value,
-        showID: Date.now() + Math.random(),
+        showID: tmpShowID,
         showImage: document.getElementById('show-image').value,
         showTitle: document.getElementById('show-title').value,
         relatedShows: []
       }
-      this.apiCallsService.addShows(rootRef, showObj, this.state.printer);
+
+      const seasonObj = {
+        seasonID: Date.now() + Math.random(),
+        showID: tmpShowID,
+        season: 'Season 1'
+      }
+
+      this.apiCallsService.addShows(rootRef.collection('shows'), showObj, this.state.printer);
+      this.apiCallsService.addSeasons(rootRef.collection('seasons'), seasonObj);
 
       this.setState({
         open: false

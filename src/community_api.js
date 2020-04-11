@@ -12,7 +12,7 @@ export class APICallsService {
 
     addShows(rootRef, showObj, printer) {
         rootRef.add(showObj).then(() => {
-            printer();
+            printer(showObj.providerID);
         });
     }
 
@@ -28,6 +28,10 @@ export class APICallsService {
             });
             return list;
         });
+    }
+
+    async addSeasons(rootRef, seasonsObj) {
+        return rootRef.add(seasonsObj);
     }
 
     async getSeasons(rootRef) {

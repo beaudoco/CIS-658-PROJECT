@@ -48,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 var list = [];
+var idx = 0;
 
 export default function ScrollableTabsButtonAuto(props) {
   const classes = useStyles();
@@ -63,6 +64,7 @@ export default function ScrollableTabsButtonAuto(props) {
   };
 
   list = [...props.seasons];
+  idx = 0;
 
   return (
     <div className={classes.root}>
@@ -87,7 +89,7 @@ export default function ScrollableTabsButtonAuto(props) {
         onChangeIndex={handleChangeIndex}
       >
         {list.map(el => {
-          return <TabPanel value={value} index={el.seasonID - 1} dir={theme.direction}>
+          return <TabPanel value={value} index={idx++} dir={theme.direction}>
             <AlignItemsList season={el.seasonID} user={props.user}></AlignItemsList>
           </TabPanel>
         })}

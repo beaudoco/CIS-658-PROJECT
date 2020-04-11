@@ -74,7 +74,7 @@ export class CommunityComponent extends React.Component {
                 list.push(tmpList[i]);
             }
 
-            this.menuItems = Menu(this.state.list, selected);
+            this.menuItems = Menu(this.state.list, this.state.selected);
             this.setState({ list: list });
         });
     }

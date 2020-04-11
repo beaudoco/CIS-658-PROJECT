@@ -32,7 +32,9 @@ export class CommunitySelectedComponent extends React.Component {
 
         this.apiCallsService.getSeasons(rootRef).then((tmpSeasons) => {
             for (var i = 0; i < tmpSeasons.length; i++) {
-                seasons.push(tmpSeasons[i]);
+                if (tmpSeasons[i].showID == index.doc.showID) {
+                    seasons.push(tmpSeasons[i]);
+                }
             }
 
             var tmpShows = [];

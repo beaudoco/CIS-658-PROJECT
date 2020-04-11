@@ -13,6 +13,7 @@ import { APICallsService } from './community_api';
 
 var idx = 0;
 var list = [];
+var totalList = [];
 var newLoad = true;
 
 export class CommunityInfoComponent extends React.Component {
@@ -21,7 +22,8 @@ export class CommunityInfoComponent extends React.Component {
         this.apiCallsService = new APICallsService();
         this.state = {
             isEmptyState: true,
-            previousIndex: -1
+            previousIndex: -1,
+            idx: -1
         };
     }
 
@@ -30,49 +32,58 @@ export class CommunityInfoComponent extends React.Component {
         this.setState({
             isEmptyState: false,
             selectedItem: selectedItem,
-            user: user
+            user: user,
+            idx: selectedItem.index
         });
 
-        this.getShows();
+        this.getShows(selectedItem.index);
     };
 
-    getShows() {
+    getShows(idx) {
+        const tmpIdx = idx ? idx : this.state.idx;
         const rootRef = firebase.firestore().collection('shows');
         list.length = 0;
+        totalList.length = 0;
         this.apiCallsService.getShows(rootRef).then((tmpList) => {
             for (var i = 0; i < tmpList.length; i++) {
-                list.push(tmpList[i]);
+                if (tmpList[i].doc.providerID === tmpIdx) {
+                    list.push(tmpList[i]);
+                }
+                totalList.push(tmpList[i]);
             }
-            this.setState({ list: list });
+            this.setState({
+                list: list,
+                totalList: totalList
+            });
         });
     }
 
-    updateParent() {
-        this.getShows();
+    updateParent(idx) {
+        this.getShows(idx);
     }
 
     onStart() {
         this.setState({ open: false });
         var tmpList = [];
-        for (var i = 0; i < list.length; i++) {
-            if (list[i].doc.showTitle != list[idx % list.length].doc.showTitle) {
+        for (var i = 0; i < totalList.length; i++) {
+            if (totalList[i].doc.showTitle != list[idx % list.length].doc.showTitle) {
                 var exists = false;
                 for (var j = 0; j < list[idx % list.length].doc.relatedShows.length; j++) {
-                    if (list[i].doc.showTitle == list[idx % list.length].doc.relatedShows[j]) {
+                    if (totalList[i].doc.showTitle == list[idx % list.length].doc.relatedShows[j]) {
                         exists = true;
                         break;
                     }
                 }
                 if (!exists) {
-                    tmpList.push(list[i]);
+                    tmpList.push(totalList[i]);
                 }
             }
         }
-        this._child.triggerUpdateState(list[idx % list.length], this.state.user, list, tmpList);
+        this._child.triggerUpdateState(list[idx % list.length], this.state.user, totalList, tmpList);
     }
 
     render() {
-        const { red, blue, green } = require('@material-ui/core/colors');
+        const { blue } = require('@material-ui/core/colors');
         const Button = require('@material-ui/core/Button').default;
 
         if (!this.state.isEmptyState) {
