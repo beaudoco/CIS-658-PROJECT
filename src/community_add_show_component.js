@@ -104,11 +104,6 @@ export class FullScreenDialog extends React.Component {
               </Button>
             </Toolbar>
           </AppBar>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
           <div className="root">
             <Grid container spacing={2}>
               <Grid item xs>

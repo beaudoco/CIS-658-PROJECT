@@ -7,7 +7,13 @@ import * as firebase from 'firebase';
 import { APICallsService } from './community_api';
 
 var list = [
-    { index: 0, title: 'Home' },
+    {
+        index: 0,
+        title: 'Home',
+        image: 'https://cdn0.iconfinder.com/data/icons/google-material-design-3-0/48/ic_home_48px-512.png',
+        height: 50,
+        width: 50
+    },
 ];
 
 var MenuItem = ({ text, selected }) => {
@@ -19,11 +25,12 @@ var MenuItem = ({ text, selected }) => {
 export var Menu = (list, selected) =>
     list.map(el => {
         const { title } = el;
+        console.log(el);
 
         return <Card key={title} selected={selected}>
             <CardActionArea>
                 <CardContent>
-                    <Typography variant="h4" text={title}>{title}</Typography>
+                    <img src={el.image} height={el.height} width={el.width} alt={title.title}></img>
                 </CardContent>
             </CardActionArea>
         </Card>
@@ -86,7 +93,7 @@ export class CommunityComponent extends React.Component {
 
         return (
             <div>
-                <div className="CommunityComponent">
+                <div className="margin-bottom">
                     <ScrollMenu
                         data={menu}
                         arrowLeft={ArrowLeft}
@@ -95,8 +102,6 @@ export class CommunityComponent extends React.Component {
                         onSelect={this.onSelect}
                     ></ScrollMenu>
                 </div>
-                <br></br>
-                <br></br>
                 <CommunityInfoComponent ref={component => this._child = component} ></CommunityInfoComponent>
             </div>
         );

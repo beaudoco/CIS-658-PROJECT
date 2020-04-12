@@ -17,12 +17,14 @@ export class CommunitySelectedComponent extends React.Component {
     constructor(props) {
         super(props);
         this.apiCallsService = new APICallsService();
+        console.log(props);
         this.state = {
             index: -1,
             seasons: [],
             shows: [],
             isErr: false,
-            errMessage: ''
+            errMessage: '',
+            showsAvailable: props.showsAvailable
         };
     }
 
@@ -165,16 +167,15 @@ export class CommunitySelectedComponent extends React.Component {
     render() {
         return (
             <div className="CommunitySelectedComponent">
-                <Card>
+                <Card className="margin-bottom">
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                            {this.state.index == -1 ? "Please Select Show" : this.state.index.showTitle}
+                            {this.state.index == -1 ? this.state.showsAvailable.length > 0 ? "Please Select A Show" : "Please Add A Show To Discuss" : this.state.index.showTitle}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Community is an opportunity for fans of all sorts of TV shows to connect with
-                            eachother on one common platform. Community offers the unique opportunity for
-                            users to share their opinions and theories of their favorite shows. It also
-                            allows for users to connect and learn more about similar TV shows.
+                            {this.state.index == -1 ? "Community is an opportunity for fans of all sorts of TV shows to connect with each other on one common platform."
+                                + "Community offers the unique opportunity for users to share their opinions and theories of their favorite shows."
+                                + "It also allows for users to connect and learn more about similar TV shows." : this.state.index.showDescription}
                             <br></br>
                             <br></br>
                         </Typography>
@@ -183,11 +184,10 @@ export class CommunitySelectedComponent extends React.Component {
                             growing catalog of TV shows for your favorites! Users are also welcome to add new
                             shows as they like.
                         </Typography>
-                        <br></br>
                         {this.state.index == -1 ? "" :
                             this.state.index.relatedShows != undefined ?
                                 this.state.index.relatedShows.map(el => {
-                                    return <div>
+                                    return <div className="margin-top">
                                         <div class="outter">
                                             <Chip label={el} className="inner" onDelete={() => this.handleDelete(el)} color="primary" />
                                         </div>
@@ -209,8 +209,6 @@ export class CommunitySelectedComponent extends React.Component {
                         }
                     </CardContent>
                 </Card>
-                <br></br>
-                <br></br>
                 {this.state.index == -1 ? <div></div> :
                     <Card>
                         <CardContent>

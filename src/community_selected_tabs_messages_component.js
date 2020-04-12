@@ -113,7 +113,7 @@ export class AlignItemsList extends React.Component {
                 <List className="list-root">
                     {list}
                 </List>
-                <div>
+                <div style={{ marginBottom: 50 }}>
                     <FormControl fullWidth variant="outlined">
                         <TextField
                             error={this.state.isError}
@@ -125,8 +125,6 @@ export class AlignItemsList extends React.Component {
                     </FormControl>
                     <Button type="submit" className="addBtn" onClick={() => this.saveComment()} >Comment</Button>
                 </div>
-                <br></br>
-                <br></br>
             </div>
         );
     }

@@ -1,5 +1,6 @@
 .addShow {
     float: right;
+    margin-bottom: 16px !important;
 }
 
 .root {
@@ -18,4 +19,8 @@
 .title {
     margin-left: 8px;
     flex: 1;
+}
+
+.appBar {
+    margin-bottom: 36px;
 }

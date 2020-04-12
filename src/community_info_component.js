@@ -23,7 +23,8 @@ export class CommunityInfoComponent extends React.Component {
         this.state = {
             isEmptyState: true,
             previousIndex: -1,
-            idx: -1
+            idx: -1,
+            list: []
         };
     }
 
@@ -99,7 +100,7 @@ export class CommunityInfoComponent extends React.Component {
             <div className="CommunityInfoComponent">
                 <a>{this.state.isEmptyState || (this.state.selectedItem.index == 0 || newLoad) ? <CommunityEmptyStateComponent></CommunityEmptyStateComponent> :
                     <div>
-                        <Card>
+                        <Card className="margin-bottom">
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     {this.state.selectedItem.title}
@@ -112,14 +113,12 @@ export class CommunityInfoComponent extends React.Component {
                                 <p>
                                     <div className="outer">
                                         <FullScreenDialog printer={() => this.updateParent()} provider={this.state.selectedItem} className="inner"></FullScreenDialog>
-                                        <Button color="primary" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button>
+                                        {this.state.list.length > 0 ? <Button color="primary" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button> : ""}
                                     </div>
                                 </p>
                             </CardContent>
                         </Card>
-                        <br></br>
-                        <br></br>
-                        <CommunitySelectedComponent ref={component => this._child = component} ></CommunitySelectedComponent>
+                        <CommunitySelectedComponent showsAvailable={list} ref={component => this._child = component} ></CommunitySelectedComponent>
                         <div style={{ position: 'relative', width: '100%', height: 500 }}>
                             <AutoRotatingCarousel
                                 label='Get started'

@@ -12,6 +12,11 @@
   .menu-item.active {
     border: 1px green solid;
   }
+
+  .menu-item-wrapper {
+    margin-right: 8px;
+    margin-top: 8px;
+  }
    
   .scroll-menu-arrow {
     padding: 20px;
@@ -25,6 +30,7 @@
 
   .inner {
     float: left;
+    margin-bottom: 16px !important;
   }
 
   .inner-right {
@@ -34,4 +40,16 @@
   .pad {
     padding-top: 40px;
     padding-bottom: 20px;
+  }
+
+  .margin-bottom {
+    margin-bottom: 16px;
+  }
+
+  .margin-top {
+    margin-top: 16px
+  }
+
+  .slim-margin-bottom {
+    margin-bottom: 8px;
   }
