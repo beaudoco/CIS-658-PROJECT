@@ -196,8 +196,7 @@ export class CommunitySelectedComponent extends React.Component {
                                 }) : ""
                         }
                         {this.state.index == -1 ? "" :
-                            <div style={{ marginTop: 50, marginBottom: 40 }} class="outter pad">
-                                <Button color="primary" className="inner-right" style={{ marginTop: 10 }} onClick={() => this.handleSave()} >Add Show</Button>
+                            <div style={{ marginTop: 50, marginBottom: 40 }} class="outter pad">                                
                                 <Autocomplete
                                     id="similar-show"
                                     className="inner"
@@ -205,6 +204,7 @@ export class CommunitySelectedComponent extends React.Component {
                                     getOptionLabel={(option) => option.showTitle}
                                     style={{ width: 300 }}
                                     renderInput={(params) => <TextField {...params} helperText={this.state.errMessage} error={this.state.isErr} label="Add Similar Show" variant="outlined" />} />
+                                <Button color="primary" className="inner-right margin-bottom" style={{ marginTop: 10 }} onClick={() => this.handleSave()} >Add Show</Button>
                             </div>
                         }
                     </CardContent>
