@@ -16,7 +16,7 @@ import { APICallsService } from './community_api';
 var list = [];
 
 export var ListItemEl = (list) =>
-    list.map(el => {
+    list.map((el, index) => {
         return <div>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
@@ -39,7 +39,7 @@ export var ListItemEl = (list) =>
                     }
                 />
             </ListItem>
-            <Divider variant="inset" component="li" />
+            {list.length == index+1 ? '' : <Divider variant="inset" component="li" />}
         </div>
     });
 

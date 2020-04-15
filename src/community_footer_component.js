@@ -60,7 +60,7 @@ function About() {
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     Community is an opportunity for fans of all sorts of TV shows to connect with
-                    eachother on one common platform. Community offers the unique opportunity for
+                    each other on one common platform. Community offers the unique opportunity for
                     users to share their opinions and theories of their favorite shows. It also
                     allows for users to connect and learn more about similar TV shows.
                 </Typography>
