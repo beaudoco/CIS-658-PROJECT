@@ -5,6 +5,7 @@ import { Card, Typography, CardContent, CardActionArea } from '@material-ui/core
 import CommunityInfoComponent from './community_info_component';
 import * as firebase from 'firebase';
 import { APICallsService } from './community_api';
+import CommunityFooterComponent from './community_footer_component';
 
 var list = [
     {
@@ -25,7 +26,6 @@ var MenuItem = ({ text, selected }) => {
 export var Menu = (list, selected) =>
     list.map(el => {
         const { title } = el;
-        console.log(el);
 
         return <Card key={title} selected={selected}>
             <CardActionArea>
@@ -103,6 +103,7 @@ export class CommunityComponent extends React.Component {
                     ></ScrollMenu>
                 </div>
                 <CommunityInfoComponent ref={component => this._child = component} ></CommunityInfoComponent>
+                 <CommunityFooterComponent></CommunityFooterComponent>
             </div>
         );
     }

@@ -17,7 +17,6 @@ export class CommunitySelectedComponent extends React.Component {
     constructor(props) {
         super(props);
         this.apiCallsService = new APICallsService();
-        console.log(props);
         this.state = {
             index: -1,
             seasons: [],
@@ -61,7 +60,6 @@ export class CommunitySelectedComponent extends React.Component {
                 filteredShows: tmpFilteredShows,
                 docObj: tmpdocObj
             });
-            //this.render();
         });
     };
 
