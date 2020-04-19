@@ -187,7 +187,7 @@ export class CommunitySelectedComponent extends React.Component {
                                 this.state.index.relatedShows.map(el => {
                                     return <div className="margin-top">
                                         <div class="outter">
-                                            <Chip label={el} className="inner" onDelete={() => this.handleDelete(el)} color="primary" />
+                                            <Chip label={el} id={el.replace(/\s/g, '-')} className="inner" onDelete={() => this.handleDelete(el)} color="primary" />
                                         </div>
 
                                     </div>
@@ -202,7 +202,7 @@ export class CommunitySelectedComponent extends React.Component {
                                     getOptionLabel={(option) => option.showTitle}
                                     style={{ width: 300 }}
                                     renderInput={(params) => <TextField {...params} helperText={this.state.errMessage} error={this.state.isErr} label="Add Similar Show" variant="outlined" />} />
-                                <Button color="primary" className="inner-right margin-bottom" style={{ marginTop: 10 }} onClick={() => this.handleSave()} >Add Show</Button>
+                                <Button color="primary" id="add-related-show" className="inner-right margin-bottom" style={{ marginTop: 10 }} onClick={() => this.handleSave()} >Add Show</Button>
                             </div>
                         }
                     </CardContent>

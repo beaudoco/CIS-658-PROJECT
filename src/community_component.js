@@ -18,22 +18,22 @@ var list = [
 ];
 
 var MenuItem = ({ text, selected }) => {
-    return <div className={`menu-item ${selected ? '' : ''}`}>
+    return (<div className={`menu-item ${selected ? '' : ''}`}>
         {text}
-    </div>;
+    </div>)
 }
 
 export var Menu = (list, selected) =>
     list.map(el => {
         const { title } = el;
 
-        return <Card key={title} selected={selected}>
+        return (<Card key={title} selected={selected}>
             <CardActionArea>
                 <CardContent>
                     <img src={el.image} height={el.height} width={el.width} alt={title.title}></img>
                 </CardContent>
             </CardActionArea>
-        </Card>
+        </Card>)
     });
 
 const Arrow = ({ text, className }) => {
@@ -103,7 +103,7 @@ export class CommunityComponent extends React.Component {
                     ></ScrollMenu>
                 </div>
                 <CommunityInfoComponent ref={component => this._child = component} ></CommunityInfoComponent>
-                 <CommunityFooterComponent></CommunityFooterComponent>
+                <CommunityFooterComponent></CommunityFooterComponent>
             </div>
         );
     }

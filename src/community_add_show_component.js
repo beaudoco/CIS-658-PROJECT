@@ -87,19 +87,19 @@ export class FullScreenDialog extends React.Component {
   render() {
     return (
       <div>
-        <Button className="addShow" color="primary" onClick={() => this.handleClickOpen()}>
+        <Button id="addShow" className="addShow" color="primary" onClick={() => this.handleClickOpen()}>
           Add Series
         </Button>
         <Dialog fullScreen open={this.state.open} onClose={() => this.handleClose()} TransitionComponent={Transition}>
           <AppBar className="appBar">
             <Toolbar>
-              <IconButton edge="start" color="inherit" onClick={() => this.handleClose()} aria-label="close">
+              <IconButton edge="start" id="close" color="inherit" onClick={() => this.handleClose()} aria-label="close">
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" className="title">
                 Add New Series
               </Typography>
-              <Button autoFocus color="inherit" onClick={() => this.handleSave()}>
+              <Button autoFocus id="save" color="inherit" onClick={() => this.handleSave()}>
                 save
               </Button>
             </Toolbar>

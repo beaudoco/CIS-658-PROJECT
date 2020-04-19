@@ -113,7 +113,7 @@ export class CommunityInfoComponent extends React.Component {
                                 <p>
                                     <div className="outer">
                                         <FullScreenDialog printer={() => this.updateParent()} provider={this.state.selectedItem} className="inner"></FullScreenDialog>
-                                        {this.state.list.length > 0 ? <Button color="primary" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button> : ""}
+                                        {this.state.list.length > 0 ? <Button color="primary" id="view-series" className="inner" onClick={() => this.setState({ open: true })} >View Series</Button> : ""}
                                     </div>
                                 </p>
                             </CardContent>

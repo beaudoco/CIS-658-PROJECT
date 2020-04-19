@@ -123,7 +123,7 @@ export class AlignItemsList extends React.Component {
                             variant="outlined"
                         />
                     </FormControl>
-                    <Button type="submit" className="addBtn" onClick={() => this.saveComment()} >Comment</Button>
+                    <Button type="submit" id="comment" className="addBtn" onClick={() => this.saveComment()} >Comment</Button>
                 </div>
             </div>
         );
