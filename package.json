@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^7.2.1",
     "babel-preset-env": "^1.7.0",
     "cypress": "^4.4.0",
-    "firebase": "^7.8.1",
+    "firebase": "^10.9.0",
     "jest-cucumber": "^2.0.11",
     "jslint": "^0.12.1",
     "material-auto-rotating-carousel": "^3.0.2",
